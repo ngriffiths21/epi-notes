@@ -1,8 +1,9 @@
 {{ partial "header.html" . }}
 
 <section id=content>
+  <h1>{{ .Title }}</h1>
+  
   <ul class=posts_listing>
-    {{ with .GetPage "/post" }}
     {{ range .Pages.ByDate.Reverse }}
     <li>
       <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
@@ -10,7 +11,6 @@
         <time>{{ .Date.Format (.Site.Params.dateform | default "2006/01/02") }}</time>
       </div>
     </li>
-    {{ end }}
     {{ end }}
   </ul>
 </section>

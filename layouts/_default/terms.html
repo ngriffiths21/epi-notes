@@ -1,0 +1,18 @@
+{{ partial "header.html" . }}
+
+<section id=content>
+  {{ range $key, $value := .Data.Terms }}
+
+  <h2><a href="{{ $value.Page.Permalink }}">{{ $value.Page.Title }}</a></h2>
+  <ul>
+    {{ range $value.Pages }}
+    <li hugo-nav="{{ .RelPermalink}}">
+      <a href="{{ .Permalink}}">{{ .LinkTitle }}</a>
+    </li>
+    {{ end }}
+  </ul>
+
+  {{ end }}
+</section>
+
+{{ partial "footer.html" . }}

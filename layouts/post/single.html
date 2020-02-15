@@ -4,7 +4,9 @@
   <h1>{{ if .Params.heading }} {{ .Params.heading }} {{ else }} {{ .Title }} {{ end }}</h1>
 
   <div id=sub-header>
-    {{ .Params.author }} · {{ .Date.Format (.Site.Params.dateform | default "2006/01/02") }} · {{ .ReadingTime }} minute read
+    {{ $formdate := .Date.Format (.Site.Params.dateform | default "2006/01/02") }}
+    {{ $formlmod := .Lastmod.Format (.Site.Params.dateform | default "2006/01/02") }}
+    {{ .Params.author }} · {{ $formdate }} {{ if ne $formdate $formlmod }} · updated {{ $formlmod }} {{ end }}
   </div>
 
   <div class="entry-content">

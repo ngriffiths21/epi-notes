@@ -1,0 +1,63 @@
+---
+title: "Cohort and case-control studies"
+author: "Nick Griffiths"
+date: 2020-02-14
+categories:
+  - study-design
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>To identify the effect of an exposure or treatment, we have to compare a group of people that were exposed to a group of people who were not, and see whether the risk or rate of a particular outcome is different between groups.</p>
+<p>In a cohort study, we keep track of each group we’re interested in. At the beginning of the study, we define the exposed and unexposed groups, and over the study period we see whether they go on to develop the outcome of interest. At the end of the study we can make a two-by-two table of results.</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Exposed</th>
+<th>Unexposed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cases</td>
+<td>10</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td>Total</td>
+<td>200</td>
+<td>400</td>
+</tr>
+</tbody>
+</table>
+<p>From these results, we can just divide the cases by the totals to calculate the risks in the two groups, which we can compare to draw conclusions.</p>
+<p>In case-control studies, we take the same approach of identifying who develops the outcome of interest, the cases. But unlike in a cohort study, we don’t use the total numbers of exposed and unexposed in our calculation. Instead, we choose a method of sampling from the source population, and then we sort people into exposed and unexposed control groups.</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Exposed</th>
+<th>Unexposed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cases</td>
+<td>10</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td>Controls</td>
+<td>30</td>
+<td>60</td>
+</tr>
+</tbody>
+</table>
+<p>There are three ways to sample controls. The oldest method is called cumulative sampling, where the controls are sampled from everyone who does not have the disease. When this method is used, the odds ratio of being a case, comparing the exposed group to the unexposed group, is the same as the odds ratio of developing the disease in the cohort study.</p>
+<p>Odds ratios are very difficult for clinicians and patients to interpret because while they can demonstrate association, they do not describe the change in risk associated with exposure, which is what people use to make decisions. Because of this, modern case-control studies sample controls in such a way that the odds ratio of getting the disease approximates either the risk ratio or the incidence rate ratio.</p>
+<p>To approximate the risk ratio, case-cohort sampling is used. Controls are sampled from all those who were at risk at the beginning of the study, including those who later became a case. The control series is then proportional to the whole cohort, so the odds ratio of being a case will estimate the cohort risk ratio. To approximate the rate ratio, density sampling is used. This is the same as case-cohort sampling but sampling is weighted by person-time contributed to the study.</p>
+<p>The use of control sampling provides a number of benefits. First, it reduces the cost of the study. When the ratio of controls to cases is greater than 3 or 4, statistical power no longer increases. This means that studying rare outcomes using cohort designs is a waste of resources. The same statistical power can be achieved with a case-control design using a smaller sample of controls.</p>
+<p>Second, case-control studies do not require a formal cohort because the controls are sampled. A study can be initiated just by starting to enroll cases. It is much cheaper and faster than keeping track of everyone in a cohort, which is a huge benefit when information is needed urgently or with little resources. However, case-control studies with a known cohort, called nested case-controls, avoid many of the potential biases associated with non-nested case-control studies because it is much more straightforward to sample controls from a defined group.</p>
+<p>A cohort study is not fundamentally different from a case-control study, it is a special case. Cohort studies are equivalent to nested case-controls that use density or case-cohort sampling, but they insist on selecting the whole cohort. As a result, case-controls are a more efficient way to estimate a risk or rate ratio.</p>

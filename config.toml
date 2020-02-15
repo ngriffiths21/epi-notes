@@ -14,8 +14,11 @@ pygmentscodefences = true
 
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
+enableGitInfo = true
+
 [params]
   sitename = "Epi Notes"
+  dateform = "Jan 02, 2006"
 
 [[menu.main]]
     name = "Home"
@@ -23,6 +26,6 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     weight = 1
 [[menu.main]]
     name = "Index"
-    url = "/topics/"
+    url = "/categories/"
     weight = 2
 
