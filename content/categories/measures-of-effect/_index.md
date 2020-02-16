@@ -1,3 +1,0 @@
----
-title: "Measures of Effect"
----

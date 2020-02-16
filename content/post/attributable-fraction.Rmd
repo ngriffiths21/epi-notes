@@ -2,8 +2,8 @@
 title: "How to calculate attributable fractions"
 author: Nick Griffiths
 date: 2020-02-16
-category:
-  - measures-of-effect
+categories:
+  - Study Results
 ---
 
 Attributable fractions represent the proportion of cases that happened because of a particular exposure. In other words, attributable cases would not have the outcome if they had never been exposed.
