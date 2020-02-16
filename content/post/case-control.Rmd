@@ -1,15 +1,16 @@
 ---
-title: "Cohort and case-control studies"
+title: "Case-control studies are cohort studies with sampled controls"
 author: "Nick Griffiths"
 date: 2020-02-14
 categories:
   - study-design
 ---
 
+Historically, case-control studies were considered inferior to cohort studies because they were more prone to bias and harder to interpret. But everything that makes a cohort study reliable can be used in case-controls too, and choosing a case-control design may still be much more efficient.
 
-To identify the effect of an exposure or treatment, we have to compare a group of people that were exposed to a group of people who were not, and see whether the risk or rate of a particular outcome is different between groups.
+Case-control and cohort studies both attempt to estimate an association between an exposure and an outcome. This means that both require a comparison between a group of people that were exposed and a group of people who were not. Then we can see whether the risk or rate of the outcome is different between the two groups.
 
-In a cohort study, we keep track of each group we're interested in. At the beginning of the study, we define the exposed and unexposed groups, and over the study period we see whether they go on to develop the outcome of interest. At the end of the study we can make a two-by-two table of results.
+The difference is in how we calculate these estimates. In a cohort study, we keep track of each group directly. At the beginning of the study, we define the exposed and unexposed groups, and over the study period we see whether they go on to develop the outcome of interest. The results can be represented by a two-by-two table of results.
 
 |       | Exposed | Unexposed |
 | -     | ---     | ---       |
@@ -18,7 +19,7 @@ In a cohort study, we keep track of each group we're interested in. At the begin
 
 From these results, we can just divide the cases by the totals to calculate the risks in the two groups, which we can compare to draw conclusions.
 
-In case-control studies, we take the same approach of identifying who develops the outcome of interest, the cases. But unlike in a cohort study, we don't use the total numbers of exposed and unexposed in our calculation. Instead, we choose a method of sampling from the source population, and then we sort people into exposed and unexposed control groups.
+In case-control studies, we don't use the total row of exposed and unexposed individuals in our calculation. Instead, we choose a method of sampling from the source population, and then we sort people into exposed and unexposed control groups.
 
 |          | Exposed | Unexposed |
 | -        | -       | -         |
