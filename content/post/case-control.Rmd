@@ -1,5 +1,5 @@
 ---
-title: "Case-control studies are cohort studies with sampled controls"
+title: "Case-control studies: sampling controls"
 author: "Nick Griffiths"
 date: 2020-02-14
 categories:
