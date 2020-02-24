@@ -2,6 +2,8 @@
 title: Sampling the right number of controls
 author: Nick Griffiths
 date: 2020-02-24
+categories:
+  - study-design
 ---
 
 ```{r setup,include=FALSE}
