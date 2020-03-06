@@ -3,6 +3,7 @@ title: "Useful R tricks"
 author: "Nick Griffiths"
 date: 2020-02-17
 draft: true
+categories: Programming
 ---
 
 ```{r setup,include = FALSE}

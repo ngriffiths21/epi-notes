@@ -1,0 +1,50 @@
+---
+title: "Estimating equity impacts"
+date: 2020-03-06
+author: Nick Griffiths
+categories: Equity
+---
+
+```{r setup,include=FALSE}
+library(tidyverse)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Usually, when evaluating an intervention, we look for a well-designed study that reports something like this:
+
+```{r out.width='60%',fig.dim=c(4,5)}
+tibble(
+  `Treatment Group` = c("Treated", "Control"),
+  `Risk of bad disease` = c(.1, .2)
+) %>%
+  ggplot(aes(`Treatment Group`, `Risk of bad disease`)) +
+  geom_col() +
+  scale_y_continuous(labels = scales::percent) +
+  theme_classic()
+```
+
+This looks pretty good, because the risk of getting the disease among the treated group is only half the risk in the untreated group.
+
+When talking about interventions, the vast majority of the conversation is about whether or not we can actually trust our estimate of the effect that the treatment had. We talk about the possibility that the difference arose due to random chance, confounding, or some other kind of bias, and how randomized controlled trials are ideal because they can protect us from some of these issues. We check for conflicts of interest and make sure we aren't being misled. Once an intervention passes all these tests, people tend to feel comfortable recommending it.
+
+In lots of cases, though, we aren't measuring the right thing. Here's the problem:
+
+```{r out.width='70%',fig.dim=c(5,4)}
+tibble(
+  `Treatment Group` = rep(c("Treated", "Control"), 3),
+  `Risk of bad disease` = c(.1, .2, .05, .2, .2, .2),
+  Group = c(rep("Overall", 2), rep("Healthy & Powerful", 2),
+            rep("Marginalized", 2))
+) %>%
+  mutate(Group = factor(
+    Group, levels = c("Marginalized", "Healthy & Powerful", "Overall")
+  )) %>%
+  ggplot(aes(`Treatment Group`, `Risk of bad disease`, fill = Group)) +
+  geom_col(position = "dodge") +
+  scale_y_continuous(labels = scales::percent) +
+  theme_classic()
+```
+
+Overall, things are better, but only because the healthier group gets healthier. The treatment's main effect is to widen the gap.
+
+If we don't check for this, we can't prevent it. Every paper in public health and medical research should do this kind of analysis so that the equity impact can be assessed.
