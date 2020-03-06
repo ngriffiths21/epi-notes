@@ -1,0 +1,30 @@
+---
+title: "Likelihood and model testing"
+date: 2020-03-06
+author: Nick Griffiths
+draft: true
+categories: Statistics
+---
+
+Outline:
+
+- Nested models, intercept and intercept + one linear predictor
+  - define likelihood
+  - define parameter standard error
+- Info theory
+  - entropy
+  - K-L divergence
+  - deviance = -2L
+- Model testing: impact of constraints on in-sample fit
+  - Likelihood ratio
+  - Score function
+  - Wald statistic
+- Model selection: impact of constraints on out-of-sample fit
+  - Information criteria
+  
+  
+in another post:
+
+- Model diagnostics:
+  - H&L calibration = mean subgroup prediction vs mean subgroup outcome
+  - discrimination = accurate comparison between pairs

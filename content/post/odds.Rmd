@@ -1,0 +1,86 @@
+---
+title: "Different kinds of odds"
+author: Nick Griffiths
+date: 2020-03-06
+draft: true
+categories: Statistics
+---
+
+A three-level outcome is modeled using a proportional odds model. The odds ratio (between the lowest level, and the first two levels) is fixed at 2. What are the potential risks?
+
+```{r}
+library(tidyverse)
+
+o_to_p <- function (x) {
+  x / (x + 1)
+}
+
+p_to_o <- function(x) {
+  (x) / (1 - x)
+}
+
+three_level_props <- function (odds1, odds2) {
+  p1 <- o_to_p(odds1)
+  p12 <- o_to_p(odds2)
+  p2 <- p12 - p1
+  p3 <- 1 - p1 - p2
+
+  c(p1, p2, p3)
+}
+
+make_row <- function(odds1, c) {
+  tibble(
+    odds1 = odds1,
+    prob = three_level_props(odds1, c * odds1),
+    grp = c("p1", "p2", "p3")
+  )
+}
+
+make_data <- function(c) {
+  map_df(seq(.1, 10, .1), ~ make_row(., c))
+}
+
+make_plot <- function(c) {
+  ggplot(make_data(c), aes(x = odds1, y = prob, fill = grp)) +
+    geom_col()
+}
+```
+
+- How do the odds of each category (versus all others) and log odds of each category behave when probability changes?
+
+
+How do the odds ratio of the second category, and odds ratio of third category, compared to the first, behave when probability changes?
+
+```{r}
+general_odds <- function (odds1, odds21) {
+  p1 <- o_to_p(odds1)
+  p2 <- o_to_p(odds21) - p1
+  p3 <- 1 - p1 - p2
+
+  or2 <- p2 / p1
+  or3 <- p3 / p1
+
+  c(log(or2), log(or3))
+}
+
+make_row_gen <- function(odds1, c) {
+  tibble(
+    odds1 = odds1,
+    or = general_odds(odds1, c * odds1),
+    grp = c("or2", "or3")
+  )
+}
+
+make_data_gen <- function(c) {
+  map_df(seq(1, 10, .1), ~ make_row_gen(., c))
+}
+
+make_plot_gen <- function(c) {
+  ggplot(make_data_gen(c), aes(x = log(odds1), y = or, fill = grp)) +
+    geom_col()
+}
+
+make_plot_gen(2)
+```
+
+- from epi: how do categorical predictor ORs impact makeup by category within one level of an outcome?
