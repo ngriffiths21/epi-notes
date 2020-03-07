@@ -1,0 +1,65 @@
+---
+title: "Verifying data analysis pipelines"
+date: 2020-03-07
+author: Nick Griffiths
+categories: Programming
+---
+
+```{r setup,include=FALSE}
+library(tidyverse)
+knitr::opts_chunk$set(collapse = TRUE)
+options(pillar.sigfig = 4)
+```
+
+Data analysis pipelines can feel like black boxes: the code might look right, and the results might be reasonable, but it's not always easy to tell whether they behave as expected. Even small datasets are too big to print out and check directly. The only way to be sure that a pipeline worked is to carefully test it.
+
+Here's a simple example using the `mtcars` dataset. We want to calculate the mean of `hp` within each level (group) of `gear`.
+
+```{r}
+hp_by_gears <-
+  mtcars %>%
+  group_by(gear) %>%
+  mutate(mean_hp = mean(hp)) %>%
+  ungroup()
+```
+
+How do we know we have grouped and calculated the mean correctly?
+
+The typical way to verify is to check one of the groups manually -- to spot check.
+
+```{r}
+hp_by_gears %>%
+  filter(gear == 5) %>%
+  select(gear, hp, mean_hp)
+
+mean(c(91, 113, 264, 175, 335))
+```
+
+It looks good, and doesn't identify any problems. But this does a poor job of arguing that it works in *every* group. While we no longer blindly trust the code, we are still making lots of assumptions:
+
+- The calculation works in every group
+- If there are missing values or extremes in another group, they are being handled correctly
+- No observations were grouped incorrectly
+
+What we are really looking for is a set of checks that prove the pipeline worked with very minimal assumptions. They should check the whole dataset, not just a few groups.
+
+First, every observation now has a value of `mean_hp` corresponding to the mean within that group. If we add all these up, we should get the same value as the sum of of the raw values:
+
+```{r}
+sum(hp_by_gears$hp)
+sum(hp_by_gears$mean_hp)
+```
+
+If we didn't, one of the means must be wrong.
+
+Second, the variable `mean_hp` should not vary within a group:
+
+```{r}
+hp_by_gears %>%
+  group_by(gear) %>%
+  summarize(n(), n_distinct(mean_hp))
+```
+
+If there were more than one value per group, it would suggest that the grouping failed or the mean didn't take the right inputs.
+
+If we know that the mean of one group is correct, the sum of the original variable matches the sum of the means, and there is exactly one mean per group, then there is almost no way the process could have failed. That's the level of confidence we should have in every pipeline.
