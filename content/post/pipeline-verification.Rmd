@@ -1,0 +1,62 @@
+---
+title: "Verifying data analysis pipelines"
+date: 2020-03-06
+author: Nick Griffiths
+draft: true
+categories: Programming
+---
+
+```{r setup,include=FALSE}
+library(tidyverse)
+knitr::opts_chunk$set(collapse = TRUE)
+options(pillar.sigfig = 4)
+```
+
+One of the biggest challenges of data analysis is writing code that actually does what you expect. The bigger the dataset, the harder it is to be confident in your results. Even small datasets are still too big to print out and check directly. To check whether the code worked, you need to carefully test it.
+
+Say you wrote some code for the `mtcars` dataset. You want to calculate the mean `hp` within each level (group) of `gear`.
+
+```{r}
+hp_by_gears <-
+  mtcars %>%
+  group_by(gear) %>%
+  mutate(mean_hp = mean(hp)) %>%
+  ungroup()
+```
+
+How do you know you have grouped and calculated the mean correctly?
+
+The typical way to verify is to check one of the groups manually -- to spot check.
+
+```{r}
+hp_by_gears %>%
+  filter(gear == 5) %>%
+  select(gear, hp, mean_hp)
+
+mean(c(91, 113, 264, 175, 335))
+```
+
+It looks good, and doesn't identify any problems. But this does a poor job of arguing that it works in *every* group. Think about all the assumptions you'd be making if you stopped here:
+
+- The correctness of the calculation holds for every group
+- There aren't missing values in other groups
+- No observations were grouped incorrectly
+
+A better way is to do thorough checks that the mathematical relationships you expect actually hold, across the entire dataset.
+
+The sum should not change when each observation is replaced by its mean:
+
+```{r}
+sum(hp_by_gears$hp)
+sum(hp_by_gears$mean_hp)
+```
+
+The variable `mean_hp` should not vary within a group:
+
+```{r}
+hp_by_gears %>%
+  group_by(gear) %>%
+  summarize(n(), n_distinct(mean_hp))
+```
+
+If we know that the mean of one group is correct, the sum of the original variable matches the sum of the means, and there is exactly one mean per group, then there is almost no way it didn't work. That's the level of confidence you should have.
