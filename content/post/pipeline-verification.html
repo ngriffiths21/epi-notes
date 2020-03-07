@@ -1,22 +1,21 @@
 ---
 title: "Verifying data analysis pipelines"
-date: 2020-03-06
+date: 2020-03-07
 author: Nick Griffiths
-draft: true
 categories: Programming
 ---
 
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
-<p>One of the biggest challenges of data analysis is writing code that actually does what you expect. The bigger the dataset, the harder it is to be confident in your results. Even small datasets are still too big to print out and check directly. To check whether the code worked, you need to carefully test it.</p>
-<p>Say you wrote some code for the <code>mtcars</code> dataset. You want to calculate the mean <code>hp</code> within each level (group) of <code>gear</code>.</p>
+<p>Data analysis pipelines can feel like black boxes: the code might look right, and the results might be reasonable, but it’s not always easy to tell whether they behave as expected. Even small datasets are too big to print out and check directly. The only way to be sure that a pipeline worked is to carefully test it.</p>
+<p>Here’s a simple example using the <code>mtcars</code> dataset. We want to calculate the mean of <code>hp</code> within each level (group) of <code>gear</code>.</p>
 <pre class="r"><code>hp_by_gears &lt;-
   mtcars %&gt;%
   group_by(gear) %&gt;%
   mutate(mean_hp = mean(hp)) %&gt;%
   ungroup()</code></pre>
-<p>How do you know you have grouped and calculated the mean correctly?</p>
+<p>How do we know we have grouped and calculated the mean correctly?</p>
 <p>The typical way to verify is to check one of the groups manually – to spot check.</p>
 <pre class="r"><code>hp_by_gears %&gt;%
   filter(gear == 5) %&gt;%
@@ -32,19 +31,20 @@ categories: Programming
 
 mean(c(91, 113, 264, 175, 335))
 ## [1] 195.6</code></pre>
-<p>It looks good, and doesn’t identify any problems. But this does a poor job of arguing that it works in <em>every</em> group. Think about all the assumptions you’d be making if you stopped here:</p>
+<p>It looks good, and doesn’t identify any problems. But this does a poor job of arguing that it works in <em>every</em> group. While we no longer blindly trust the code, we are still making lots of assumptions:</p>
 <ul>
-<li>The correctness of the calculation holds for every group</li>
-<li>There aren’t missing values in other groups</li>
+<li>The calculation works in every group</li>
+<li>If there are missing values or extremes in another group, they are being handled correctly</li>
 <li>No observations were grouped incorrectly</li>
 </ul>
-<p>A better way is to do thorough checks that the mathematical relationships you expect actually hold, across the entire dataset.</p>
-<p>The sum should not change when each observation is replaced by its mean:</p>
+<p>What we are really looking for is a set of checks that prove the pipeline worked with very minimal assumptions. They should check the whole dataset, not just a few groups.</p>
+<p>First, every observation now has a value of <code>mean_hp</code> corresponding to the mean within that group. If we add all these up, we should get the same value as the sum of of the raw values:</p>
 <pre class="r"><code>sum(hp_by_gears$hp)
 ## [1] 4694
 sum(hp_by_gears$mean_hp)
 ## [1] 4694</code></pre>
-<p>The variable <code>mean_hp</code> should not vary within a group:</p>
+<p>If we didn’t, one of the means must be wrong.</p>
+<p>Second, the variable <code>mean_hp</code> should not vary within a group:</p>
 <pre class="r"><code>hp_by_gears %&gt;%
   group_by(gear) %&gt;%
   summarize(n(), n_distinct(mean_hp))
@@ -54,4 +54,5 @@ sum(hp_by_gears$mean_hp)
 ## 1     3    15                     1
 ## 2     4    12                     1
 ## 3     5     5                     1</code></pre>
-<p>If we know that the mean of one group is correct, the sum of the original variable matches the sum of the means, and there is exactly one mean per group, then there is almost no way it didn’t work. That’s the level of confidence you should have.</p>
+<p>If there were more than one value per group, it would suggest that the grouping failed or the mean didn’t take the right inputs.</p>
+<p>If we know that the mean of one group is correct, the sum of the original variable matches the sum of the means, and there is exactly one mean per group, then there is almost no way the process could have failed. That’s the level of confidence we should have in every pipeline.</p>

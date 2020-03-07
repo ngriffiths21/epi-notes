@@ -1,8 +1,7 @@
 ---
 title: "Verifying data analysis pipelines"
-date: 2020-03-06
+date: 2020-03-07
 author: Nick Griffiths
-draft: true
 categories: Programming
 ---
 
@@ -12,9 +11,9 @@ knitr::opts_chunk$set(collapse = TRUE)
 options(pillar.sigfig = 4)
 ```
 
-One of the biggest challenges of data analysis is writing code that actually does what you expect. The bigger the dataset, the harder it is to be confident in your results. Even small datasets are still too big to print out and check directly. To check whether the code worked, you need to carefully test it.
+Data analysis pipelines can feel like black boxes: the code might look right, and the results might be reasonable, but it's not always easy to tell whether they behave as expected. Even small datasets are too big to print out and check directly. The only way to be sure that a pipeline worked is to carefully test it.
 
-Say you wrote some code for the `mtcars` dataset. You want to calculate the mean `hp` within each level (group) of `gear`.
+Here's a simple example using the `mtcars` dataset. We want to calculate the mean of `hp` within each level (group) of `gear`.
 
 ```{r}
 hp_by_gears <-
@@ -24,7 +23,7 @@ hp_by_gears <-
   ungroup()
 ```
 
-How do you know you have grouped and calculated the mean correctly?
+How do we know we have grouped and calculated the mean correctly?
 
 The typical way to verify is to check one of the groups manually -- to spot check.
 
@@ -36,22 +35,24 @@ hp_by_gears %>%
 mean(c(91, 113, 264, 175, 335))
 ```
 
-It looks good, and doesn't identify any problems. But this does a poor job of arguing that it works in *every* group. Think about all the assumptions you'd be making if you stopped here:
+It looks good, and doesn't identify any problems. But this does a poor job of arguing that it works in *every* group. While we no longer blindly trust the code, we are still making lots of assumptions:
 
-- The correctness of the calculation holds for every group
-- There aren't missing values in other groups
+- The calculation works in every group
+- If there are missing values or extremes in another group, they are being handled correctly
 - No observations were grouped incorrectly
 
-A better way is to do thorough checks that the mathematical relationships you expect actually hold, across the entire dataset.
+What we are really looking for is a set of checks that prove the pipeline worked with very minimal assumptions. They should check the whole dataset, not just a few groups.
 
-The sum should not change when each observation is replaced by its mean:
+First, every observation now has a value of `mean_hp` corresponding to the mean within that group. If we add all these up, we should get the same value as the sum of of the raw values:
 
 ```{r}
 sum(hp_by_gears$hp)
 sum(hp_by_gears$mean_hp)
 ```
 
-The variable `mean_hp` should not vary within a group:
+If we didn't, one of the means must be wrong.
+
+Second, the variable `mean_hp` should not vary within a group:
 
 ```{r}
 hp_by_gears %>%
@@ -59,4 +60,6 @@ hp_by_gears %>%
   summarize(n(), n_distinct(mean_hp))
 ```
 
-If we know that the mean of one group is correct, the sum of the original variable matches the sum of the means, and there is exactly one mean per group, then there is almost no way it didn't work. That's the level of confidence you should have.
+If there were more than one value per group, it would suggest that the grouping failed or the mean didn't take the right inputs.
+
+If we know that the mean of one group is correct, the sum of the original variable matches the sum of the means, and there is exactly one mean per group, then there is almost no way the process could have failed. That's the level of confidence we should have in every pipeline.
