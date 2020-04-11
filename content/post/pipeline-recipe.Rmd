@@ -2,7 +2,7 @@
 title: "Recipe for R data pipelines"
 author: Nick Griffiths
 date: 2020-04-09
-categories: programming
+categories: Programming
 ---
 
 ```{r, include = FALSE}
