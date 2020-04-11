@@ -1,0 +1,116 @@
+---
+title: "Recipe for R data pipelines"
+author: Nick Griffiths
+date: 2020-04-09
+draft: true
+categories: programming
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+There are a lot of different aspects to processing a raw dataset for analysis. It helps to tackle things in order and keep similar steps together.
+
+## Make data accessible (ASAP)
+
+### 1. Rename columns
+
+Make all names short and informative. With `tidyverse`, the convention is to use underscore names (`col_one`).
+
+### 2. Join datasets
+
+Merged data is much easier to work with than separate datasets. Do this as early as possible.
+
+In the tidy framework, a dataset is a table where named columns represent variables and rows that represent individual observations of those variables.
+
+So, datasets are defined by what is considered an "observation." This could be an event, a person, a date, or any other unit. Any data expressed with the same unit of observation should be combined into a unified dataset.
+
+Before joining, it's often necessary to pivot the data.
+
+At this point, the data may be worth saving as an intermediate file.
+
+## Prep for analysis
+
+### 3. Recode
+
+The point of recoding is to put data into a format that can be used in calculations or analysis.
+
+Some guidelines:
+
+- The best format for data depends on its purpose (filter, math, viz, modeling)
+- Format the same information consistently
+- Combine columns when possible (e.g. combine dates and times)
+- Group-wise information should be recycled through the group
+
+The information should not change, so the variables themselves can be overwritten.
+
+### 4. Perform calculations
+
+Use the following framework:
+
+```{r results="hide"}
+suppressMessages(library(dplyr))
+
+mtcars %>%
+  group_by(vs) %>%
+  mutate(newhp = mean(hp[gear == 3]))
+```
+
+Here, `hp[gear == 3]` operates over observations of `hp` when `gear` is 3, and `mutate` calculates each mean within the groups of `vs`.
+
+The simple combination of `group_by`, `mutate`, and `[` can handle a surprisingly wide variety of tasks.
+
+Write some tests to ensure the calculation is correct.
+
+### 5. Rearrange
+
+If there are columns that define the observation unit, put those first.
+
+When groups of columns are often used together, keep them in order so they can be selected with `select(first:last)`.
+
+## R tools
+
+Examples with the `nycflights13` data
+
+```{r}
+library(nycflights13)
+```
+
+### Testing
+
+Many testing packages are available, including `tinytest`, `assertr`, and `testthat`.
+
+```{r}
+library(tinytest)
+library(checkmate) # extends tinytest
+
+mean_delays <- flights %>%
+  mutate(mean_del = mean(dep_delay, na.rm = T))
+
+expect_double(mean_delays$mean_del, any.missing = F)
+```
+
+### Viewing data
+
+Summary stats:
+
+```{r}
+print(skimr::skim(flights[1:3])) # Better summary (print not needed)
+```
+
+Head of all variables:
+
+```{r}
+tibble::glimpse(flights) # Better head
+```
+
+### Getting help
+
+Docs and examples:
+
+```{r}
+?sum
+
+example(sum)
+```
