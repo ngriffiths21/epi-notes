@@ -1,0 +1,19 @@
+---
+title: "Resources"
+---
+
+# Resources
+
+## Statistics
+
+- [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/), by Richard McElreath 
+
+## R Programming
+
+- [Advanced R](https://adv-r.hadley.nz/), by Hadley Wickham
+- [R Markdown](https://bookdown.org/yihui/rmarkdown/), by Yihui Xie, Joseph J. Allaire, and Garrett Grolemund
+
+## Writing
+
+- [The Science of Scientific Writing](https://www.americanscientist.org/blog/the-long-view/the-science-of-scientific-writing), by George Gopen and Judith Swan
+- [Style](https://sites.duke.edu/niou/files/2014/07/WilliamsJosephM1990StyleTowardClarityandGrace.pdf), by Joseph Williams

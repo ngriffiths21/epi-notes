@@ -21,11 +21,19 @@ enableGitInfo = true
   dateform = "Jan 02, 2006"
 
 [[menu.main]]
-    name = "Home"
+    name = "Latest"
     url = "/"
     weight = 1
 [[menu.main]]
     name = "Index"
     url = "/categories/"
     weight = 2
+[[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 3
+[[menu.main]]
+    name = "Resources"
+    url = "/resources/"
+    weight = 4
 
