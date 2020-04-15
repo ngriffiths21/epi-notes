@@ -1,0 +1,18 @@
+---
+title: "About"
+---
+
+# Nick Griffiths
+
+Masters student, BU School of Public Health
+
+
+<a class="icon" href="https://twitter.com/ng_griff">
+	<img class="icon" src="/img/twitter.svg" />
+</a> &nbsp;
+<a class="icon" href="https://github.com/ngriffiths21">
+	<img class="icon" src="/img/github.svg" />
+</a> &nbsp;
+<a class="icon" href="https://linkedin.com/in/nicholas-griffiths">
+	<img class="icon" src="/img/linkedin.svg" />
+</a>
