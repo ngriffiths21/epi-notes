@@ -6,12 +6,40 @@ categories: public-health
 draft: true
 ---
 
-## The Melon Lady and the janitor
+## What Killed Blind Willie Johnson?
 
-At Bill Bicknell's [last lecture](https://www.youtube.com/watch?v=JIi6g1m_n6k), he told the story of the janitor and the Melon Lady. One day at work he noticed that the fruit stand on the corner threw out all the leftover fruit in a dumpster at the end of the day. He waited a few days, continued to see the stand do this each day, and then decided to take a watermelon home with him. He did this a few times. Then a janitor came to him and was pretty bold, saying, "Commissioner, I hate to bother you, but women come here at night and depend on that dumpster for food." And Dr. Bicknell says he always thought of the Melon Lady, the person who wasn't at the table, whenever he had to make a decision.
+Blind Willie Johnson was a blues artist who died in 1945. He never became wealthy but had an enormous impact on blues music. His song "Dark Was the Night, Cold Was the Ground" was one of 27 chosen for the Voyager probe.
 
-## Public health vs. clinical medicine
+When Blind Willie Johnson was 7, he was blinded with lye by his stepmother. When he was an adult his house burned down, but he did not have enough money to move and he stayed in the ruins of the house. There he contracted malaria, but no hospital would admit him, either because of his blindness or his race. He eventually died of malarial fever.
 
-At my town's Board of Health meeting recently, there was discussion about the status of the COVID-19 pandemic and the first case diagnosed in the down. Someone noted that there would be more, adding that doctors were advising patients with suspicious symptoms to stay home and forego testing. Lacking an accurate count, they talked a little about preparations.
+The death certificate lists malaria fever, with syphilis and blindness as contributing factors, but what really killed Blind Willie Johnson? It was more than a medical disease. It was poverty, domestic violence, homelessness, and racism.
 
-They moved on to the next idea. It was a proposal by a public health physician to protect those 70 and older, the highest risk group for dying of this disease. The proposal was to gather the list of every 70+ resident and mail them a letter with a number to call if they have fever, cough, and shortness of breath. Suddenly, the board could identify most high-risk suspect cases within days. Having identified them, they would contact-trace and advise self-quarantine, just like they would with a confirmed positive. This is the work that saves lives: a clever proposal by a public health professional who cared deeply about his town (he listed his personal phone number in the letter), who had extensive experience, and who understood that to really understand a population you have to go out and measure it --- you can't just ask its doctors.
+Source: https://www.wbur.org/commonhealth/2019/04/30/sandro-galea-boston-university-well
+
+## The Anti-Mask League of San Francisco
+
+In September 1918, the influenza epidemic struck San Francisco. By mid-October the city had over 2,000 cases, and the health officer, William Hassler, took action. He closed schools and entertainment venues, and banned large public gatherings. And he recommended (and later ordered) that all residents wear a mask.
+
+At first, the masks were a symbol of patriotism. Four-fifths of the population was estimated to follow the mask order. As time went on, there were a number of people who were fined and even arrested for not wearing a mask, but overall the city was compliant.
+
+When the first wave of the epidemic came to an end and the closure orders were lifted, everyone flooded the theaters and sports venues. The mask order continued, but was no longer followed. Even the mayor was fined $50 for not wearing a mask. On November 21, the mask ordinance was lifted.
+
+Then San Francisco closed again in January after a second wave of cases was reported. The mask ordinance was re-enacted. And this time the backlash was much stronger. Influential people in San Francisco established the Anti-Mask League in opposition to the order. At a public meeting, 2,000 people were in attendance.
+
+San Francisco failed. It is estimated that there were 673 excess deaths per 100,000 over the course of the epidemic, worse than any other American city.
+
+Source: https://www.influenzaarchive.org/cities/city-sanfrancisco.html
+
+## The Melon Lady and the Janitor
+
+At Bill Bicknell's [last lecture](https://www.youtube.com/watch?v=JIi6g1m_n6k), he told the story of the janitor and the melon lady. One day at work he noticed that the fruit stand on the corner threw out all the leftover fruit near a dumpster at the end of the day. He waited a few days, then decided to take one of the watermelons home with him. He did this a few times.
+
+Then a janitor came up to him and told him, "Commissioner, I hate to bother you, but women come here at night and depend on that dumpster for food." So, Dr. Bicknell said he always thought of the melon lady---the person who wasn't at the table---whenever he had to make a decision.
+
+## How to Count Cases
+
+I was listening to my town's local public health meeting when it reported its first diagnosed case of COVID-19. They had been expecting cases any day, and all agreed there were probably many more that were undiagnosed. They noted that doctors were advising symptomatic patients to stay home and forego testing, so the official count couldn't be accurate. They talked a little about preparing for the coming increase.
+
+Then, one member proposed an idea. Don't wait for cases to be diagnosed, he said. Just send a mailing to every resident, asking them to call the public health department if they had fever, cough, and shortness of breath.
+
+Suddenly the board had a way to quickly identify all the suspect cases in the town, and while it wasn't an accurate test, it only required a single letter. The board could get a sense for the magnitude of the problem even as physicians were telling their patients not to get tested. More importantly, they had a way to reach out to everyone in the town and connect those at highest risk to information and resources. In an emergency, even low quality data can help. And when you lack information, sometimes you have to go out and get it yourself.
