@@ -1,0 +1,68 @@
+---
+title: "Impacts of state policy on mental health"
+author: Nick Griffiths
+date: 2020-04-26
+categories: literature-reviews
+bibliography: lit-reviews.bib
+link-citations: true
+---
+
+Research on the effect of state legislation on suicide and mental distress.
+
+## Firearm laws
+
+### @crifasiEffects2015
+
+In October 1995, Connecticut passed a law requiring permits to purchase a gun. The permit required passing a background check and a gun owner safety course.
+
+The authors use a synthetic control approach to estimate the effects of the law. In this method, they use a variety of covariates from other states to predict the suicide rate in Connecticut and use these predictions as the control value. Control states are weighted by predictive ability of their covariate data.
+
+After the passage of the permit-to-purchase law, the firearm suicide rate was consistently lower than in the synthetic control.
+
+### @millerAssociation2006a
+
+The authors use data on suicide rates and firearm ownership by census region from 1981 to 2002. They use log-log regression (log-transforming both the suicide rates and firearm ownership) to estimate the effect associated with a 10% decrease in firearm ownership. They use GEE with robust standard errors to account for correlation within regions.
+
+They find that a 10% decrease in firearm ownership is associated with a 4.2% decrease in the firearm suicide rate (95% CI 2.3%, 6.1%).
+
+### @anestisRising2017
+
+The authors investigate relationships between firearm suicide rates, non-firearm suicide rates, and gun laws in a state level analysis. Data over 17 years (1999-2015) were included. They used mixed effects models with a random intercepts term to allow for variation by state.
+
+There was a relationship between firearm suicide and overall suicide rates, but no significant association between firearm and non-firearm suicide rates. States with background checks and states with mandatory waiting periods had lower firearm suicide rates but similar non-firearm suicide rates. Finally, there was an observed increase in suicide rates over the study period, and background checks and mandatory waiting periods were associated with less steep increases over time.
+
+### Other studies on firearms
+
+@kellermannSuicide1992: a case-control study revealing a strong association between gun ownership and risk of suicide
+
+## Minimum wage
+
+### @gertnerAssociation2019
+
+Panel data from all 50 states was collected over 11 years (2006-2016). They estimated a fixed-effects model with minimum wage as the independent variable and age-adjusted suicide rate as the outcome. Suicide rate was log-transformed (they used a Box-Cox test to decide this). State and year fixed effects were included to account for variation by state and year. Regression was weighted by average state population. Cluster-robust standard errors were used with clustering by state. The model was also adjusted for unemployment rate, state GDP per capita, percent budget spent on Medicaid, and percent uninsured.
+
+In the adjusted model there was a 1.9% decrease in the suicide rate for every $1 increase in the minimum wage.
+
+## Discriminatory laws
+
+### @raifmanAssociation2018
+
+BRFSS data from 2014-2016 were used to measure changes in the prevalence of mental distress (poor mental health during 14+ of the past 30 days). The sample included 109,089 respondents. UT, MI, and NC were included as exposed states due to passing a law denying same-sex couples services in 2015. NV, ID, OH, IN, VA, and DE were included as control states due to being nearby and demographically similar. A difference-in-difference-in-differences approach was used, with the two control groups being heterosexual adults and those in control states. Thus, in a linear regression model, the parameter of interest was the interaction between sexual minority identity and living in a state with a same-sex denial law. They also controlled for a number of sociodemographic variables and included year and state fixed effects. The outcome is dichotomous, but the authors use linear regression because fixed effects lead to unreliable logistic regression parameter estimates. They used permutation tests to calculate p-values.
+
+The difference-in-differences estimate was that laws denying services to same-sex couples resulted in an increase of 10.13 (95% CI 1.76, 18.50) percentage points in mental distress for sexual minority adults.
+
+
+## Media regulation
+
+These studies aren't about U.S. state policy but are still relevant to local or statewide regulation.
+
+### @mottoNewspaper1970
+
+Documented a decrease in suicide rates during a period of complete newpaper blackout in Detroit, including a reduction among women to 3.0 per 100,000 person-years from an average of 7.6 over the previous four years.
+
+### @etzersdorferPreventing1998
+
+A sharp decrease in subway suicides and attempts in Austria was observed in 1987, after a media campaign to alter media coverage of these events.
+
+## References
+
