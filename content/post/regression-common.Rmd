@@ -1,0 +1,83 @@
+---
+title: "Regression cheat sheet: general topics"
+date: 2020-04-27
+author: Nick Griffiths
+categories: Statistics
+---
+
+## Designing predictor terms {#predictors}
+
+In the linear regression model $Y = \beta_0 + \beta_1 X_1 + ...$, coefficients $\beta$ relate each $X_i$ to $Y$.
+
+Predictor variables $X_i$ can take any form:
+
+- Continuous: $\beta$ captures change in $Y$ per unit change in $X$
+- Indicator ($X \in \{0, 1\}$): $\beta$ is the difference between categories
+  - Make dummy variables for categorical predictors
+- Interaction ($X_1 X_2)$: captures modification of the effect of one variable by another
+- Polynomial ($X^a$): allow for nonlinear effects
+  - Natural cubic splines are a common flexible choice
+
+## Regression goodness of fit {#fit}
+
+Ways to test goodness of fit:
+
+- Tests of the global null hypothesis, which is that the intercept-only model fits as well as the full model
+    + The intercept-only model is nested within the full model, so likelihood ratio test can be used
+	+ Wald and Score test are also available but are less reliable
+- Information criteria
+	+ These balance underfitting against overfitting -- additional parameters will only reduce information criteria when they offset complexity with better fit
+- Explained variance
+
+## Regression diagnostics {#diagnostics}
+
+Detecting outliers using residuals:
+
+- Pearson residuals
+  - Sum of squared pearson residuals is the $\chi^2$ statistic
+- Deviance residuals
+  - Sum of squared deviance residuals is the deviance of the model
+  
+Detecting influential points:
+
+- Leverage
+  - Distance of independent variable values from those of other observations
+- Dfbeta
+  - Identify influential observations on estimates of each parameter
+- Cook's distance
+  - Influence of an observation overall
+
+## GEE {#gee}
+
+GEE allows unbiased estimation when there are clusters of correlated observations. It involves specifying a covariance matrix for the set of repeated outcome observations $y_i$.
+
+Normally we assume independence. This is the independence matrix with three measurements per subject/cluster:
+
+$$
+\begin{bmatrix}
+1 & 0 & 0\\
+0 & 1 & 0\\
+0 & 0 & 1
+\end{bmatrix}
+$$
+
+But with GEE we specify any covariance structure for the outcomes. Using robust standard errors, the model will result in unbiased estimates even if the covariance structure is wrong. GEE is also an option to account for overdispersion in Poisson regression.
+
+## Parameter interpretation {#interpretation}
+
+One way to interpret parameter estimates is to check the standardized beta, which normalizes estimates by the standard error.
+
+Profile likelihood confidence intervals can be more accurate than Wald confidence intervals with small sample sizes.
+
+## Multiple imputation {#mult-imputation}
+
+For this to work, data must either be MCAR, or it must be MAR with correct predictors available to use for imputation.
+
+Procedure:
+
+1. Fit a regression with missing values as the outcome
+2. Impute predicted values using $x = x_{pred} + \epsilon$, where $\epsilon$ is a random normal term with the same variance as the regression residuals
+3. Make multiple copies of imputed datasets (>5)
+4. Fit the model for each dataset and estimate parameters by pooling results
+
+Note: If multiple variables have missing values, we will have a multivariate normal distribution that can be sampled using MCMC. If the pattern of missingness is monotone (as for unfinished surveys) the values can be imputed sequentially instead.

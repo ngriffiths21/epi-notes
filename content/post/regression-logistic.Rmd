@@ -1,0 +1,74 @@
+---
+title: "Regression cheat sheet: logistic"
+date: 2020-04-27
+author: Nick Griffiths
+categories: Statistics
+---
+
+## Logistic regression
+
+### The data
+
+Individuals have a dichotomous outcome.
+
+See:
+
+- [Designing predictors](/post/regression-common/#predictors)
+- [Multiple imputation](/post/regression-common/#mult-imputation)
+
+### Estimation
+
+Firth penalized regression avoids separation and is less biased with small sample sizes.
+
+Conditional logistic regression is used when data is matched on outcomes. Maximum likelihood estimation is conditional on this matching.
+
+See:
+
+- [GEE](/post/regression-common/#gee)
+
+### Model evaluation
+
+The c-statistic is a measure of discrimination between those with the outcome and those without. It is the area under the receiver operating characteristic curve.
+
+The Hosmer and Lemeshow test can be used to assess calibration. It divides the data into quantiles of predicted probability and tests that the local predicted probability is similar to the true frequency of the outcome.
+
+See:
+
+- [Goodness of fit](/post/regression-common/#fit)
+- [Regression diagnostics](/post/regression-common/#diagnostics)
+
+### Interpretation of effects
+
+$log(\frac{P}{1-P}) = \alpha + \beta X$
+
+- The intercept $\alpha$ is the log odds when all X is zero
+- $exp(\beta_i)$ is the odds ratio for one unit increase in predictor $X_i$
+
+See:
+
+- [Parameter interpretation](/post/regression-common/#interpretation)
+
+## Extension to multinomial outcomes
+
+### Proportional odds
+
+Cumulative odds are used to capture the multinomial outcome, and the parameters have the same effect on both outcome levels.
+
+$$logit_2 = log(\frac{\pi_2}{1 - \pi_2}) = \alpha_1 + \beta_1 X_1 + ...$$
+
+$$logit_1 = log(\frac{\pi_1 + \pi_2}{1 - \pi_1 - \pi_2}) = \alpha_2 + \beta_1 X_1 + ...$$
+
+To interpret the results:
+
+- $exp(\beta_1)$ is still an odds ratio (for any outcome level) for changes in $X_1$
+- $exp(\frac{\alpha_2}{\alpha_1})$ is the constant odds ratio $\frac{odds_2}{odds_1}$ of the two outcome levels. Hence the name proportional odds.
+
+### Multinomial model
+
+The multinomial model is more general because each outcome group has its own intercept and coefficients:
+
+$$logit_1 = log(\frac{\pi_1}{\pi_0}) = \alpha_1 + \beta_{11} X_1 + ...$$
+
+$$logit_2 = log(\frac{\pi_2}{\pi_0}) = \alpha_2 + \beta_{21} X_1 + ...$$
+
+These are called generalized logits.
