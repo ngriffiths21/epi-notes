@@ -1,0 +1,74 @@
+---
+title: "Regression cheat sheet: logistic"
+date: 2020-04-27
+author: Nick Griffiths
+categories: Statistics
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="logistic-regression" class="section level2">
+<h2>Logistic regression</h2>
+<div id="the-data" class="section level3">
+<h3>The data</h3>
+<p>Individuals have a dichotomous outcome.</p>
+<p>See:</p>
+<ul>
+<li><a href="/post/regression-common/#predictors">Designing predictors</a></li>
+<li><a href="/post/regression-common/#mult-imputation">Multiple imputation</a></li>
+</ul>
+</div>
+<div id="estimation" class="section level3">
+<h3>Estimation</h3>
+<p>Firth penalized regression avoids separation and is less biased with small sample sizes.</p>
+<p>Conditional logistic regression is used when data is matched on outcomes. Maximum likelihood estimation is conditional on this matching.</p>
+<p>See:</p>
+<ul>
+<li><a href="/post/regression-common/#gee">GEE</a></li>
+</ul>
+</div>
+<div id="model-evaluation" class="section level3">
+<h3>Model evaluation</h3>
+<p>The c-statistic is a measure of discrimination between those with the outcome and those without. It is the area under the receiver operating characteristic curve.</p>
+<p>The Hosmer and Lemeshow test can be used to assess calibration. It divides the data into quantiles of predicted probability and tests that the local predicted probability is similar to the true frequency of the outcome.</p>
+<p>See:</p>
+<ul>
+<li><a href="/post/regression-common/#fit">Goodness of fit</a></li>
+<li><a href="/post/regression-common/#diagnostics">Regression diagnostics</a></li>
+</ul>
+</div>
+<div id="interpretation-of-effects" class="section level3">
+<h3>Interpretation of effects</h3>
+<p><span class="math inline">\(log(\frac{P}{1-P}) = \alpha + \beta X\)</span></p>
+<ul>
+<li>The intercept <span class="math inline">\(\alpha\)</span> is the log odds when all X is zero</li>
+<li><span class="math inline">\(exp(\beta_i)\)</span> is the odds ratio for one unit increase in predictor <span class="math inline">\(X_i\)</span></li>
+</ul>
+<p>See:</p>
+<ul>
+<li><a href="/post/regression-common/#interpretation">Parameter interpretation</a></li>
+</ul>
+</div>
+</div>
+<div id="extension-to-multinomial-outcomes" class="section level2">
+<h2>Extension to multinomial outcomes</h2>
+<div id="proportional-odds" class="section level3">
+<h3>Proportional odds</h3>
+<p>Cumulative odds are used to capture the multinomial outcome, and the parameters have the same effect on both outcome levels.</p>
+<p><span class="math display">\[logit_2 = log(\frac{\pi_2}{1 - \pi_2}) = \alpha_1 + \beta_1 X_1 + ...\]</span></p>
+<p><span class="math display">\[logit_1 = log(\frac{\pi_1 + \pi_2}{1 - \pi_1 - \pi_2}) = \alpha_2 + \beta_1 X_1 + ...\]</span></p>
+<p>To interpret the results:</p>
+<ul>
+<li><span class="math inline">\(exp(\beta_1)\)</span> is still an odds ratio (for any outcome level) for changes in <span class="math inline">\(X_1\)</span></li>
+<li><span class="math inline">\(exp(\frac{\alpha_2}{\alpha_1})\)</span> is the constant odds ratio <span class="math inline">\(\frac{odds_2}{odds_1}\)</span> of the two outcome levels. Hence the name proportional odds.</li>
+</ul>
+</div>
+<div id="multinomial-model" class="section level3">
+<h3>Multinomial model</h3>
+<p>The multinomial model is more general because each outcome group has its own intercept and coefficients:</p>
+<p><span class="math display">\[logit_1 = log(\frac{\pi_1}{\pi_0}) = \alpha_1 + \beta_{11} X_1 + ...\]</span></p>
+<p><span class="math display">\[logit_2 = log(\frac{\pi_2}{\pi_0}) = \alpha_2 + \beta_{21} X_1 + ...\]</span></p>
+<p>These are called generalized logits.</p>
+</div>
+</div>
