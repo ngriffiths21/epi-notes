@@ -9,25 +9,37 @@ categories: Programming
 
 
 <p>There are a lot of different aspects to processing a raw dataset for analysis. It helps to tackle things in order and keep similar steps together.</p>
+<div id="before-starting-make-a-plan" class="section level2">
+<h2>Before starting, make a plan</h2>
+<p>Answer these questions:</p>
+<ul>
+<li>What are the input datasets?</li>
+<li>What are the output datasets?</li>
+<li>Will you need any intermediates?</li>
+</ul>
+<p>Then describe each dataset. First, what is the unit of observation? One row will contain one observation. It could be one row per person, or per time point, or per group.</p>
+<p>Second, what variables will be included? It doesn’t make sense to remove variables that were in the input dataset unless they get in the way of later reshaping or calculations. Keep as much as possible.</p>
+</div>
 <div id="make-data-accessible-asap" class="section level2">
 <h2>Make data accessible (ASAP)</h2>
 <div id="rename-columns" class="section level3">
 <h3>1. Rename columns</h3>
 <p>Make all names short and informative. With <code>tidyverse</code>, the convention is to use underscore names (<code>col_one</code>).</p>
 </div>
-<div id="join-datasets" class="section level3">
-<h3>2. Join datasets</h3>
-<p>Merged data is much easier to work with than separate datasets. Do this as early as possible.</p>
-<p>In the tidy framework, a dataset is a table where named columns represent variables and rows that represent individual observations of those variables.</p>
-<p>So, datasets are defined by what is considered an “observation.” This could be an event, a person, a date, or any other unit. Any data expressed with the same unit of observation should be combined into a unified dataset.</p>
-<p>Before joining, it’s often necessary to pivot the data.</p>
-<p>At this point, the data may be worth saving as an intermediate file.</p>
+<div id="discard-data-that-gets-in-the-way" class="section level3">
+<h3>2. Discard data that gets in the way</h3>
+<p>Use <code>filter</code> here and try not to use it anywhere else. That way you can easily find all the filters in one place for later reference.</p>
+</div>
+<div id="reshape-and-join-datasets" class="section level3">
+<h3>3. Reshape and join datasets</h3>
+<p>If there are multiple sources of data, and all of them have the same unit of observation, it’s best to merge them as soon as possible.</p>
+<p>Often, the input dataset doesn’t have a row for each unit of observation. For example, you might need data with a row per participant but the input dataset has responses spread out across rows. This is the best time to pivot the data into the correct format.</p>
 </div>
 </div>
 <div id="prep-for-analysis" class="section level2">
 <h2>Prep for analysis</h2>
 <div id="recode" class="section level3">
-<h3>3. Recode</h3>
+<h3>4. Recode</h3>
 <p>The point of recoding is to put data into a format that can be used in calculations or analysis.</p>
 <p>Some guidelines:</p>
 <ul>
@@ -39,7 +51,7 @@ categories: Programming
 <p>The information should not change, so the variables themselves can be overwritten.</p>
 </div>
 <div id="perform-calculations" class="section level3">
-<h3>4. Perform calculations</h3>
+<h3>5. Perform calculations</h3>
 <p>Use the following framework:</p>
 <pre class="r"><code>suppressMessages(library(dplyr))
 
@@ -51,7 +63,7 @@ mtcars %&gt;%
 <p>Write some tests to ensure the calculation is correct.</p>
 </div>
 <div id="rearrange" class="section level3">
-<h3>5. Rearrange</h3>
+<h3>6. Rearrange</h3>
 <p>If there are columns that define the observation unit, put those first.</p>
 <p>When groups of columns are often used together, keep them in order so they can be selected with <code>select(first:last)</code>.</p>
 </div>
