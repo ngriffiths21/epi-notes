@@ -11,27 +11,37 @@ knitr::opts_chunk$set(collapse = TRUE)
 
 There are a lot of different aspects to processing a raw dataset for analysis. It helps to tackle things in order and keep similar steps together.
 
+## Before starting, make a plan
+
+Answer these questions:
+
+- What are the input datasets?
+- What are the output datasets?
+- Will you need any intermediates?
+
+Then describe each dataset. First, what is the unit of observation? One row will contain one observation. It could be one row per person, or per time point, or per group.
+
+Second, what variables will be included? It doesn't make sense to remove variables that were in the input dataset unless they get in the way of later reshaping or calculations. Keep as much as possible.
+
 ## Make data accessible (ASAP)
 
 ### 1. Rename columns
 
 Make all names short and informative. With `tidyverse`, the convention is to use underscore names (`col_one`).
 
-### 2. Join datasets
+### 2. Discard data that gets in the way
 
-Merged data is much easier to work with than separate datasets. Do this as early as possible.
+Use `filter` here and try not to use it anywhere else. That way you can easily find all the filters in one place for later reference.
 
-In the tidy framework, a dataset is a table where named columns represent variables and rows that represent individual observations of those variables.
+### 3. Reshape and join datasets
 
-So, datasets are defined by what is considered an "observation." This could be an event, a person, a date, or any other unit. Any data expressed with the same unit of observation should be combined into a unified dataset.
+If there are multiple sources of data, and all of them have the same unit of observation, it's best to merge them as soon as possible.
 
-Before joining, it's often necessary to pivot the data.
-
-At this point, the data may be worth saving as an intermediate file.
+Often, the input dataset doesn't have a row for each unit of observation. For example, you might need data with a row per participant but the input dataset has responses spread out across rows. This is the best time to pivot the data into the correct format.
 
 ## Prep for analysis
 
-### 3. Recode
+### 4. Recode
 
 The point of recoding is to put data into a format that can be used in calculations or analysis.
 
@@ -44,7 +54,7 @@ Some guidelines:
 
 The information should not change, so the variables themselves can be overwritten.
 
-### 4. Perform calculations
+### 5. Perform calculations
 
 Use the following framework:
 
@@ -62,7 +72,7 @@ The simple combination of `group_by`, `mutate`, and `[` can handle a surprisingl
 
 Write some tests to ensure the calculation is correct.
 
-### 5. Rearrange
+### 6. Rearrange
 
 If there are columns that define the observation unit, put those first.
 
