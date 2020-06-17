@@ -1,0 +1,24 @@
+---
+title: "Problems with p-values"
+date: 2020-06-16
+author: Nick Griffiths
+categories: statistics
+---
+
+## Invalidation
+
+- **Cherry-picking good data** that supports the hypothesis and ignoring the rest. This includes obvious hunting for p-values as well as subtler issues. One example is doing a meta-analysis on a topic where many non-significant results were obtained by researchers but left unpublished.
+
+- **Changing the hypothesis based on the data**. Like with cherry-picking, this can overstate the significance of results. It includes things like removing terms from a model after deciding they aren't significant. (However, adding new terms won't cause problems).
+
+## Misinterpretation
+
+There are lots of ways to misinterpret p-values. In a [2019 article](https://doi.org/10.1080/00031305.2018.1529625), Sander Greenland gives a good overview with more detail.
+
+- **Probability of data due to chance**. The p-value is not the probability that chance alone produced the data. That is the probability that the null hypothesis is true, and it is always unknown. P-values assume the null and measure how compatible the data are with this pre-specified hypothesis.
+
+- **Scale issues**. The p-value is not additive, it is multiplicative. By taking the logarithm it becomes additive. (Greenland 2019 recommends s-values, $s = -log_2(p)$).
+
+## Related problems
+
+- **Weak hypotheses**. One example is doing a screen of 100 genes and reporting which results are statistically significant. Implicitly, you are testing 100 different hypotheses, one for each gene. But you're ignoring another question -- whether the genes as a whole are important, or not. If one gene is important, the combined effect of all genes should be, too.

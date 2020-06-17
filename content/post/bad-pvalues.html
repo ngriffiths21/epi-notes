@@ -1,0 +1,31 @@
+---
+title: "Problems with p-values"
+date: 2020-06-16
+author: Nick Griffiths
+categories: statistics
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="invalidation" class="section level2">
+<h2>Invalidation</h2>
+<ul>
+<li><p><strong>Cherry-picking good data</strong> that supports the hypothesis and ignoring the rest. This includes obvious hunting for p-values as well as subtler issues. One example is doing a meta-analysis on a topic where many non-significant results were obtained by researchers but left unpublished.</p></li>
+<li><p><strong>Changing the hypothesis based on the data</strong>. Like with cherry-picking, this can overstate the significance of results. It includes things like removing terms from a model after deciding they aren’t significant. (However, adding new terms won’t cause problems).</p></li>
+</ul>
+</div>
+<div id="misinterpretation" class="section level2">
+<h2>Misinterpretation</h2>
+<p>There are lots of ways to misinterpret p-values. In a <a href="https://doi.org/10.1080/00031305.2018.1529625">2019 article</a>, Sander Greenland gives a good overview with more detail.</p>
+<ul>
+<li><p><strong>Probability of data due to chance</strong>. The p-value is not the probability that chance alone produced the data. That is the probability that the null hypothesis is true, and it is always unknown. P-values assume the null and measure how compatible the data are with this pre-specified hypothesis.</p></li>
+<li><p><strong>Scale issues</strong>. The p-value is not additive, it is multiplicative. By taking the logarithm it becomes additive. (Greenland 2019 recommends s-values, <span class="math inline">\(s = -log_2(p)\)</span>).</p></li>
+</ul>
+</div>
+<div id="related-problems" class="section level2">
+<h2>Related problems</h2>
+<ul>
+<li><strong>Weak hypotheses</strong>. One example is doing a screen of 100 genes and reporting which results are statistically significant. Implicitly, you are testing 100 different hypotheses, one for each gene. But you’re ignoring another question – whether the genes as a whole are important, or not. If one gene is important, the combined effect of all genes should be, too.</li>
+</ul>
+</div>
