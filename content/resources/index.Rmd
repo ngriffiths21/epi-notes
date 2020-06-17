@@ -4,6 +4,10 @@ title: "Resources"
 
 # Resources
 
+## Philosophy of Science
+
+- [Karl Popper](https://plato.stanford.edu/entries/popper/)
+
 ## Statistics
 
 - [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/), by Richard McElreath 
