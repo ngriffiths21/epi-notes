@@ -1,0 +1,34 @@
+---
+title: "Pivoting data is just rearranging groups"
+date: 2020-06-22
+author: Nick Griffiths
+categories: Programming
+---
+
+After a while of using the pivot_wider and pivot_longer tidyverse functions, I still can never remember how they work. The argument names never seem to stick.
+
+I've found it's easier to think about in terms of grouping. Pivoting is just an operation that can take groups of data and sort them into columns or combine them into rows. The key to understanding pivoting is to visualize the groups that are being rearranged.
+
+For example, take the `tidyr::fish_encounters` dataset. It is important to recognize that this dataset only contains a *single column* of actual data, which is the `seen` column. The `fish` and `station` columns can be thought of as grouping variables for `seen`.
+
+Imagine annotating each value of `seen` with the corresponding value of `station` and `fish`, so the `fish` and `station` columns are embedded in a single column. Then you can move around these `seen` values however you want with no loss of information. Each annotation (`fish` or `station`) can define either a group of rows or a set of columns.
+
+To pivot wider, you make groups by `fish` and `station` and use `fish` to group rows, while `station` sorts the data into columns.
+
+The corresponding R code for this is below:
+
+```{r}
+library(tidyr)
+wide_fishes <- pivot_wider(fish_encounters, id_cols = fish, names_from = "station", values_from = seen)
+wide_fishes
+```
+
+So, to translate, `values_from` selects the data, `id_cols` defines the grouping you want to keep as row groups, and `names_from` is the grouping you want to translate to columns. Every column should fall in one of these categories.
+
+Similarly, we can pivot back to a longer format by doing the reverse. We have a grouping variable `fish` and a data column for each `station`. We make groups of data using `fish` and `station`, then stack all the data back into a single column.
+
+```{r}
+pivot_longer(wide_fishes, cols = -fish, names_to = "station", values_to = "seen")
+```
+
+The `pivot_longer` function treats all selected columns as data columns, and all non-selected columns as grouping variables. It then combines all the data columns into a single column. We select our data with `cols`. `values_to` names the new combined data column, and `names_to` names the new grouping variable.

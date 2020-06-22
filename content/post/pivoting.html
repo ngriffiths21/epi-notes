@@ -1,0 +1,59 @@
+---
+title: "Pivoting data is just rearranging groups"
+date: 2020-06-22
+author: Nick Griffiths
+categories: Programming
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>After a while of using the pivot_wider and pivot_longer tidyverse functions, I still can never remember how they work. The argument names never seem to stick.</p>
+<p>I’ve found it’s easier to think about in terms of grouping. Pivoting is just an operation that can take groups of data and sort them into columns or combine them into rows. The key to understanding pivoting is to visualize the groups that are being rearranged.</p>
+<p>For example, take the <code>tidyr::fish_encounters</code> dataset. It is important to recognize that this dataset only contains a <em>single column</em> of actual data, which is the <code>seen</code> column. The <code>fish</code> and <code>station</code> columns can be thought of as grouping variables for <code>seen</code>.</p>
+<p>Imagine annotating each value of <code>seen</code> with the corresponding value of <code>station</code> and <code>fish</code>, so the <code>fish</code> and <code>station</code> columns are embedded in a single column. Then you can move around these <code>seen</code> values however you want with no loss of information. Each annotation (<code>fish</code> or <code>station</code>) can define either a group of rows or a set of columns.</p>
+<p>To pivot wider, you make groups by <code>fish</code> and <code>station</code> and use <code>fish</code> to group rows, while <code>station</code> sorts the data into columns.</p>
+<p>The corresponding R code for this is below:</p>
+<pre class="r"><code>library(tidyr)
+wide_fishes &lt;- pivot_wider(fish_encounters, id_cols = fish, names_from = &quot;station&quot;, values_from = seen)
+wide_fishes</code></pre>
+<pre><code>## # A tibble: 19 x 12
+##    fish  Release I80_1 Lisbon  Rstr Base_TD   BCE   BCW  BCE2  BCW2   MAE   MAW
+##    &lt;fct&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;int&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+##  1 4842        1     1      1     1       1     1     1     1     1     1     1
+##  2 4843        1     1      1     1       1     1     1     1     1     1     1
+##  3 4844        1     1      1     1       1     1     1     1     1     1     1
+##  4 4845        1     1      1     1       1    NA    NA    NA    NA    NA    NA
+##  5 4847        1     1      1    NA      NA    NA    NA    NA    NA    NA    NA
+##  6 4848        1     1      1     1      NA    NA    NA    NA    NA    NA    NA
+##  7 4849        1     1     NA    NA      NA    NA    NA    NA    NA    NA    NA
+##  8 4850        1     1     NA     1       1     1     1    NA    NA    NA    NA
+##  9 4851        1     1     NA    NA      NA    NA    NA    NA    NA    NA    NA
+## 10 4854        1     1     NA    NA      NA    NA    NA    NA    NA    NA    NA
+## 11 4855        1     1      1     1       1    NA    NA    NA    NA    NA    NA
+## 12 4857        1     1      1     1       1     1     1     1     1    NA    NA
+## 13 4858        1     1      1     1       1     1     1     1     1     1     1
+## 14 4859        1     1      1     1       1    NA    NA    NA    NA    NA    NA
+## 15 4861        1     1      1     1       1     1     1     1     1     1     1
+## 16 4862        1     1      1     1       1     1     1     1     1    NA    NA
+## 17 4863        1     1     NA    NA      NA    NA    NA    NA    NA    NA    NA
+## 18 4864        1     1     NA    NA      NA    NA    NA    NA    NA    NA    NA
+## 19 4865        1     1      1    NA      NA    NA    NA    NA    NA    NA    NA</code></pre>
+<p>So, to translate, <code>values_from</code> selects the data, <code>id_cols</code> defines the grouping you want to keep as row groups, and <code>names_from</code> is the grouping you want to translate to columns. Every column should fall in one of these categories.</p>
+<p>Similarly, we can pivot back to a longer format by doing the reverse. We have a grouping variable <code>fish</code> and a data column for each <code>station</code>. We make groups of data using <code>fish</code> and <code>station</code>, then stack all the data back into a single column.</p>
+<pre class="r"><code>pivot_longer(wide_fishes, cols = -fish, names_to = &quot;station&quot;, values_to = &quot;seen&quot;)</code></pre>
+<pre><code>## # A tibble: 209 x 3
+##    fish  station  seen
+##    &lt;fct&gt; &lt;chr&gt;   &lt;int&gt;
+##  1 4842  Release     1
+##  2 4842  I80_1       1
+##  3 4842  Lisbon      1
+##  4 4842  Rstr        1
+##  5 4842  Base_TD     1
+##  6 4842  BCE         1
+##  7 4842  BCW         1
+##  8 4842  BCE2        1
+##  9 4842  BCW2        1
+## 10 4842  MAE         1
+## # … with 199 more rows</code></pre>
+<p>The <code>pivot_longer</code> function treats all selected columns as data columns, and all non-selected columns as grouping variables. It then combines all the data columns into a single column. We select our data with <code>cols</code>. <code>values_to</code> names the new combined data column, and <code>names_to</code> names the new grouping variable.</p>
