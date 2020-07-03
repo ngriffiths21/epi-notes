@@ -2,10 +2,11 @@
 title: "About"
 ---
 
-# Nick Griffiths
+# About
 
-Masters student, BU School of Public Health
+I am a masters student in public health at Boston University. I write notes on things I'm currently learning/reading about, and most posts are a work in progress. You can browse them by topic at the post [index](/categories).
 
+## Nick Griffiths
 
 <a class="icon" href="https://twitter.com/ng_griff">
 	<img class="icon" src="/img/twitter.svg" />
