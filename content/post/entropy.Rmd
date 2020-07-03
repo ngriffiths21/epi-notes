@@ -1,0 +1,116 @@
+---
+title: "Entropy and KL divergence"
+date: 2020-07-03
+author: Nick Griffiths
+categories: Statistics
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+## Shannon Entropy
+
+Shannon entropy is a property of a probability distribution.
+
+For a discrete distribution with only one event P(x) = 1, entropy is zero:
+
+```{r}
+library(entropy)
+
+entropy(1)
+```
+
+Entropy is proportional to the number of binary variables (bits) we need to capture all (equally likely) discrete outcomes:
+
+```{r}
+entropy(c("1" = 1,"0" = 1)) # one binary variable
+
+entropy(c("11" = 1,"00" = 1, "10" = 1, "01" = 1)) # two variables
+
+entropy(c("111" = 1, "110" = 1, "101" = 1, "100" = 1,
+          "011" = 1, "010" = 1, "001" = 1, "000" = 1)) # 3 variables
+```
+
+If we have two events and weight one of them more, entropy decreases. This reflects the fact that as we increase the weight, we approach the single event distribution with no entropy:
+
+```{r}
+entropy(c(1,1))
+
+entropy(c(1,3))
+
+entropy(c(1,10))
+
+entropy(c(1,10^6))
+```
+
+Similarly, for continuous distributions, the entropy increases with flatter, wider, higher variance distributions:
+
+```{r}
+entropy(dnorm(-10:10))
+
+entropy(dnorm(-10:10, sd = 100))
+```
+
+## Kullback–Leibler divergence
+
+KL divergence describes differences in two distributions based on their entropies. The KL divergence of a distribution with itself is 0:
+
+```{r}
+KL.empirical(c(1,1), c(1,1))
+```
+
+It is the entropy carried by the *additional* binary variables (bits) needed by the higher-entropy distribution to fully represent the outcomes:
+
+```{r}
+dist1 <- c("11" = 1,"00" = 1, "10" = 1, "01" = 1) # 2 binary variables
+dist2 <- c("111" = 1, "110" = 1, "101" = 1, "100" = 1,
+          "011" = 1, "010" = 1, "001" = 1, "000" = 1) # 3 binary variables
+
+KL.empirical(dist1, dist2)
+
+entropy(c("1" = 1, "0" = 1)) # entropy of one binary variable
+```
+
+## Cross Entropy
+
+Cross entropy is closely related to KL divergence and also contrasts two distributions. It is just the KL divergence plus the entropy of the lower-entropy distribution.
+
+When the higher-entropy distribution (d2 below) has equally-weighted outcomes, cross-entropy is the same as its entropy regardless of the other distribution:
+
+```{r}
+d1 <- c(1,3,2,1,1)
+
+d2 <- c(1,1,1,1,1)
+
+entropy(d1)
+entropy(d2)
+
+entropy(d1) + KL.empirical(d1,d2)
+```
+
+Otherwise the cross-entropy could be either higher or lower. For example, if the lower-entropy distribution removes a higher-weighted value,  cross-entropy exceeds entropy:
+
+```{r}
+d1 <- c(1,0,2,1,1)
+entropy(d1)
+
+d2 <- c(1,2,2,1,1)
+
+entropy(d2)
+entropy(d1) + KL.empirical(d1,d2)
+```
+
+If it removes a lower-weighted value, cross-entropy is lower than entropy:
+
+```{r}
+d1 <- c(1,2,2,0,1)
+entropy(d1)
+
+d2 <- c(1,2,2,1,1)
+
+entropy(d2)
+entropy(d1) + KL.empirical(d1,d2)
+```
+
+Finally, cross-entropy has an important connection with the likelihood. If d1 is a model we've built, and d2 is the process we are modeling, then the cross-entropy is a scaled equivalent of the likelihood function. We can do maximum likelihood estimation by minimizing the cross-entropy.
