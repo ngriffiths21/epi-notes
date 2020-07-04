@@ -1,0 +1,51 @@
+---
+title: "Strategies for reading journal articles"
+date: 2020-07-04
+author: Nick Griffiths
+---
+
+I like to think about reading in three distinct steps: gather raw information, put it into context, and then consider the overall impact.
+
+## Gather information in an unbiased way
+
+1. Infer the overall research question from the title, end of the introduction, and/or "measures" section
+
+    - What is the ideal study design?
+    - What is the most likely finding?
+    - What kinds of evidence would change understanding?
+
+2. Carefully look through the tables; go back into the methods to answer any questions about variable definitions and methodology
+
+    - Are there surprising results (whether related to the research question or not)? What should be highlighted in the text?
+
+3. Read through the whole results section for any additional results, and compare with the tables
+
+    - How do all the results impact the research question? What is the broader narrative or conclusion?
+    - What sources of bias should be considered?
+
+## Think about the results in context
+
+4. Read through the entire introduction and discussion
+
+    - What was the motivation for the study?
+    - What are the conclusions the authors make, and do they make sense?
+    - In the context of prior work as laid out in the introduction and discussion, do the results or conclusions change?
+    - Are important sources of bias considered?
+
+## Consider the impact
+
+5. Re-read the whole article to understand the motivating theory, the model, and what future action is recommended
+
+    - Who is being blamed for the problem?
+    - Who is considered responsible for fixing it?
+    - What kind of solution is being proposed (more research, policy, public health or medical intervention, etc)?
+    - Who may be harmed or helped as a result?
+
+6. Read the news
+
+    - Same questions as above
+    - How well does the news convey all this information?
+
+## Other resources
+
+[This article](https://www.medscape.com/viewarticle/902209) by Vinay Prasad is a great overview of how to efficiently review clinical research literature
