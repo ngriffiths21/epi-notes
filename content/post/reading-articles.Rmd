@@ -2,6 +2,7 @@
 title: "Strategies for reading journal articles"
 date: 2020-07-04
 author: Nick Griffiths
+categories: literature-reviews
 ---
 
 I like to think about reading in three distinct steps: gather raw information, put it into context, and then consider the overall impact.
