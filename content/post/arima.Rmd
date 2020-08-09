@@ -1,0 +1,50 @@
+---
+title: "Arima modeling cheatsheet"
+date: 2020-08-09
+author: Nick Griffiths
+categories: Statistics
+---
+
+## Model structure
+
+An ARIMA model includes two types of parameters, autoregressive (AR, $\phi$) and moving average (MA, $\theta$). It can also be differenced (subtracting the values at a certain lag). This is the equation:
+
+$$(1 - \phi_1 B - ... - \phi_p B^p) (1 - B)^d y_t = c + (1 + ... + \theta_q B^q) \epsilon_t$$
+
+where $B y_t = y_{t-1}$ (from the [Forecasting](https://otexts.com/fpp2/arima.html) textbook).
+
+This is called an $ARIMA(p,d,q)$ model. We could also have a seasonal model, written $ARIMA(p,d,q)(P,D,Q)_m$, in which case we just multiply terms like $(1 - \Phi_1 B^m - ... - \Phi_p B^{p*m})$ to the equation.
+
+
+## Choosing an order
+
+Plot at least the autocorrelation (ACF) and partial autocorrelation (PACF). SAS also plots the IACF.
+
+First decide if it's stationary or nonstationary, and difference if nonstationary. If the model is nonstationary:
+
+- The time series will have a trend, OR a regular seasonal pattern
+- The ACF will decay slowly
+
+Then choose the orders for the AR and MA terms.
+
+If the model is pure AR (q = 0):
+
+- It will have an ACF that decays or is sinusoidal
+- It will have a PACF that has significant terms up to lag $p$ but none beyond that
+
+MA models have the reverse: decaying PACFs, cutoffs in their ACFs.
+
+If the best model has both MA and AR terms, the plots won't be useful.
+
+If there are seasonal terms with order $m$, the same pattern will be visible at each multiple of $m$. For example, if there is a seasonal term $(1,0,0)_4$, there will be a decaying ACF at lags 4, 8, 12, etc.
+
+The notes from PROC ARIMA describe the IACF, which behaves like the PACF, but can also indicate overdifferencing. If there is overdifferencing, the IACF looks like an ACF from a nonstationary process (it decays very slowly). If it is nonstationary, the IACF will look like the ACF from an MA model (cutoff after a certain lag).
+
+## Regression
+
+If adding other predictors, it is the residuals that are being modeled, so these should be plotted to check for order. After picking an order the model can be rerun with ARMA error terms.
+
+## Resources
+
+- Arima chapter in [Forecasting](https://otexts.com/fpp2/arima.html) textbook
+- SAS PROC ARIMA docs
