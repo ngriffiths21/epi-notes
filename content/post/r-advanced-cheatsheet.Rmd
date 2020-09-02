@@ -1,0 +1,229 @@
+---
+title: "Call Stack and Conditions in R"
+date: 2020-09-01
+author: Nick Griffiths
+categories: Programming
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(collapse=TRUE, comment = "#>", error = FALSE)
+```
+
+```{r}
+library(rlang)
+library(lobstr)
+```
+
+This is a cheatsheet outlining the basics of the call stack and condition handling system in R. The [Advanced R](https://adv-r.hadley.nz/) book has lots more detail.
+
+
+### 1. Environments
+
+Print the current environment:
+
+```{r}
+env_print(current_env())
+
+env_print(environment())
+```
+
+Print the caller environment:
+
+```{r}
+f <- function () env_print(caller_env())
+f <- function () env_print(parent.frame())
+f()
+```
+
+### 2. Traces
+
+Print the trace:
+
+```{r eval=FALSE}
+f <- function () stop("test")
+f()
+#> Error in f() : test
+traceback()
+#> 2: stop("test") at #1
+#> 1: f()
+```
+
+Traces are stored in `.Traceback` in base R. `rlang::abort()` stores its traces in its own environment (`rlang:::last_error_env`).
+
+Because arguments are evaluated lazily, the (linear) call stack can have a branching environment structure. In other words, several frames on the call stack can be children of the same environment. This is displayed in `rlang` traces.
+
+In this example, `i()` is called after `h()` but its evaluation context is a child of the global environment (clearly it can't reference anything in the body of `h()`).
+
+```{r}
+i <- function () { 
+  lobstr::cst()
+}
+
+h <- function (x) x   # x is evaluated, calling i()
+
+g <- function (x) h(x)  # x isn't touched
+
+f <- function (x) g(x)  # x isn't touched
+
+g(i())
+```
+
+### 3. Conditions
+
+Any signalled conditions are handled by the handler stack. The stack is made up of two kinds of handlers, exiting and local. Each call to `tryCatch()` or `withCallingHandlers()` adds to both the handler stack and the callstack, but the two stacks behave a bit differently.
+
+`tryCatch()` establishes exiting handlers:
+
+```{r}
+g <- function () stop("stopping")
+f <- function () g()
+
+tryCatch(f(), error = function (x) {
+  cat("\nR throws away everything deeper than tryCatch:\n")
+  lobstr::cst()
+  cat("\nthis is the caller's environment (tryCatchOne's env):\n")
+  env_print(parent.frame(1))
+  cat("\nbut tryCatch knows the function where the error actually occurred:\n")
+  print(get("call", parent.frame()))
+  cat("\n")
+  "handler value gets returned"
+})
+```
+
+`withCallingHandlers()` establishes local handlers:
+
+```{r eval=FALSE}
+g <- function () {
+  stop("stopping")
+}
+
+f <- function () {
+  g()
+}
+
+secondLobstr <- lobstr::cst
+
+withCallingHandlers(f(), error = function (x) {
+  cat("\nThree-stage execution restarting from global each time:\n")
+  lobstr::cst()
+  cat("\nthis is the caller's environment (.handleSimpleError's env):\n")
+  env_print(parent.frame())
+  "the return val is discarded"
+}, error = function (x) {
+  cat("\nThis is handler #2\n")
+  cat("\nNote the identical call stack to handler #1\n")
+  secondLobstr()
+  invokeRestart("abort")
+})
+#> Three-stage execution restarting from global each time:
+#>    █
+#> 1. ├─base::withCallingHandlers(...)
+#> 2. ├─global::f()
+#> 3. │ └─global::g()
+#> 4. │   └─base::stop("stopping")
+#> 5. └─base::.handleSimpleError(...)
+#> 6.   └─global::h(simpleError(msg, call))
+#> 7.     └─lobstr::cst()
+#>
+#> this is the caller's environment (.handleSimpleError's env):
+#> <environment: 0x7f8743386b28>
+#> parent: <environment: namespace:base>
+#> bindings:
+#>  * h: <fn>
+#>  * msg: <lazy>
+#>  * call: <lazy>
+#> 
+#> This is handler #2
+#> 
+#> Note the identical call stack to handler #1
+#>     █
+#>  1. ├─base::withCallingHandlers(...)
+#>  2. ├─global::f()
+#>  3. │ └─global::g()
+#>  4. │   └─base::stop("stopping")
+#>  5. └─base::.handleSimpleError(...)
+#>  6.   └─global::h(simpleError(msg, call))
+#>  7.     └─lobstr:::secondLobstr()
+```
+
+Important rules of condition handling:
+
+1. R looks for handlers in the handler stack from the top down (most recently added to least recent). Inside one `withCallingHandlers()` call, the first handler is considered the topmost handler (most recent). Local handlers are called, if they exist, before exiting handlers.
+
+2. Once a handler has been called, the only valid handlers left are those lower in the handler stack (less recent).
+
+3. When invoking an exiting handler, the parent frame on the call stack is `tryCatch()` (the handler stack is similarly truncated), and everything higher is discarded. If it is local, the parent frame on the call stack is the one where the error was signaled.
+
+4. As a result of (3), when exiting handlers return, execution continues from wherever `tryCatch()` was called. However, if a local handler returns, the value is discarded and control is given to the next available handler.
+
+5. When invoking a local handler, the parent *environment* is wherever `withCallingHandlers()` was called, not the environment that signalled the condition.
+
+
+### 4. Restarts
+
+Local error handlers can run restart functions in order to circumvent later handlers.
+
+```{r}
+# list available ones
+f <- function () {
+  computeRestarts(simpleMessage("hello"))
+}
+
+withRestarts(f(), custom_message = function () NULL)
+
+g <- function () {
+  cat("this executes\n")
+  invokeRestart("custom")
+  cat("this doesn't\n")
+}
+
+f <- function () g()
+
+custom_abort <- function () {
+  "aborting, this string gets returned"
+}
+
+withRestarts(f(), custom = custom_abort)
+```
+
+
+### 5. Warning options
+
+Warnings can be handled in different ways:
+
+```{r eval=FALSE}
+f <- function () {
+    cat("do this first\n")
+    warning("")
+    cat("do this second\n")
+}
+
+g <- function () withCallingHandlers(f(), warning = function (x) {
+    cat("handling the warning\n")
+}, error = function (x) {
+    cat("this is an error!\n")
+    invokeRestart("abort")
+})
+
+options(warn = 0)
+g()
+#> do this first
+#> handling the warning
+#> do this second
+#> Warning message:
+#> In f() : 
+
+options(warn = 1)
+g()
+#> do this first
+#> handling the warning
+#> Warning in f() : 
+#> do this second
+ 
+options(warn = 2)
+g()
+#> do this first
+#> handling the warning
+#> this is an error!
+```
+
