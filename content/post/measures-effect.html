@@ -1,0 +1,17 @@
+---
+title: "Choosing measures of effect"
+date: 2020-09-10
+author: Nick Griffiths
+categories: data-analysis
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Take two groups of people, one exposed to some factor, and one unexposed. When choosing a measure of effect we want to summarize the impact of the factor on an outcome of interest, and we want this summary measure to capture as much information as possible.</p>
+<p>The simplest way to compare the exposed and unexposed groups is to just count up who got the disease (cases) in each group. But this isn’t useful any time the groups differ in size, so we calculate <em>risk</em>, or incidence proportion, which is the proportion of people who became cases in each group over the study period.</p>
+<p>The main drawback of risk is that it assumes everyone stays in the study for the entire follow up period, so that all cases in the original groups are counted. If people leave partway through (or enter partway through) it is much more useful to estimate <em>incidence rate</em>, the rate at which new cases accumulate per unit of person-time. Then any time not in the study is removed from the person-time of the corresponding group.</p>
+<p>To compare these measures of frequency, we can start by just subtracting them to get a <em>risk difference</em> or <em>rate difference</em>. This gives us the amount of risk in the exposed group that is added by being exposed. But it makes an assumption, which is that the proportion of cases in the study is the same as the proportion of cases in the general population. If the disease is really rare, it is beneficial to be able to violate this assumption.</p>
+<p>Instead, we can use the <em>risk ratio</em> by dividing the two risks (or the same with rates). This measure is valid whenever the proportion of cases is a constant multiple of its source population, so it doesn’t have to actually match. In other words, if the source population has 10% cases in the exposed and 5% in the unexposed groups, the study can have 20% and 10%, and the risk ratio is still 2.0. The exposure distribution doesn’t have to satisfy this, so exposed and unexposed groups can be chosen independently. (This is why <a href="/post/case-control">nested case-controls</a> are so useful).</p>
+<p>Finally, the <em>odds ratio</em> is valid with either proportional cases or proportional exposure, so it can still be estimated when cases and noncases are sampled independently in a case-control study. The downside with odds ratios is in their interpretation. Counterintuitively, they do not correspond with the average change in the individual odds of getting the disease. And they do not correspond with the change in the average odds of getting the disease. As a result, they rarely capture useful information on their own except whether the effect is null or not.</p>
+<p>Sometimes we are interested in how many cases were actually <a href="/post/attributable-fraction/">attributable</a> to the exposure. The <em>attributable risk</em> is just the risk difference and comes with the same assumptions. The <em>attributable fraction</em> is the risk difference divided by the exposed risk, and can be calculated using only the risk ratio.</p>
