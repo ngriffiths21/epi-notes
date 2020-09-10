@@ -1,0 +1,30 @@
+---
+title: "GLM links and distributions"
+date: 2020-09-09
+author: Nick Griffiths
+categories: Statistics
+---
+
+Generalized Linear Models allows transformations of the predictor terms using a link function $\eta$:
+
+$$\eta(y) = \beta_0 + \beta_1 x_1 + ... + \beta_n x_n$$
+
+When we use maximum likelihood, $y = \eta^{-1}(\beta_0 + \beta_1 x_1 ...)$ is part of what is used to calculate the likelihood: $\ell = P(y_{obs} | y)$. The other piece is the assumed distribution of $y_{obs}$.
+
+## The distribution
+
+When analyzing binary data with a logit link, $y_{obs}$ is logically given a bernoulli distribution. We assign likelihood $y$ to all $y_{obs} = 1$ and $1 - y$ to all $y_{obs} = 0$ ($y$ is a probability, not odds or logit).
+
+When using log-binomial regression, implementations aren't as robust and the models often fail to converge. So with a log link people often use a poisson distribution. However, the variance of poisson is equal to $y = \eta^{-1}(x_1, x_2, ...)$, and it overestimates the variance of a bernoulli outcome, which is only $p(1-p) = y(1 - y)$. So the poisson's CIs are too wide and the usual solution is to use robust variance estimators instead.
+
+## Link functions
+
+Link functions have two main effects:
+
+Their domain and range can differ. In binary data, the logit link $\eta(y) = log(\frac{y}{1-y})$ is great because it is a function $(0,1) \to \mathbb{R}$. This means all values of the predictor terms are always one-to-one with a valid probability. (Note that the log link is $(0,1) \to (-\infty,0)$ which means that invalid probability predictions are still possible with a log link and arbitrary predictors).
+
+Changes in predictors result in different changes in the outcome. With an identity link, predictors have an additive effect on the outcome. With a log or logit link, predictors have a multiplicative impact on the outcome.
+
+## Interpretating parameters
+
+If the outcome is binary, then each $y_{obs}$ is $0$ or $1$ and $\mathbb{E}(y_{obs})$ is a probability. When interpreting the coefficients, an identity link would correspond with a linear relationship between the probability and the predictor (though it is hardly used). A log link corresponds with a log relative risk: $\beta = log(y_1) - log(y_2) = \log(y_1 / y_2)$. A logit link corresponds with a log odds ratio.
