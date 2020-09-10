@@ -1,0 +1,105 @@
+---
+title: "Multiple Testing and Publication Bias"
+date: 2020-09-10
+author: Nick Griffiths
+categories: data-analysis
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Scientists often worry about publication bias, in which non-null findings are much more likely to be published. The problem with this is it biases the literature as a whole away from the null. This is one of the reasons people advocate against any null hypothesis testing.</p>
+<div id="simulating-publication-bias" class="section level2">
+<h2>Simulating publication bias</h2>
+<p>To see some effects of publication bias, let’s do a simulation.</p>
+<p>Assume that there are five possible hypotheses and only one of them is actually true. Many studies will be done on each of the hypotheses.</p>
+<pre class="r"><code>run_study &lt;- function (x, mu) {
+  grp1 &lt;- rnorm(x, mean = 0, sd = 3)
+  grp2 &lt;- rnorm(x, mean = 0 + mu, sd = 2)
+  t.test(grp1, grp2)
+}
+
+p_val &lt;- function (x, hyp) {
+  if (hyp == 5) {
+    return(run_study(x, mu = 1)$p.value)
+  }
+  run_study(x, mu = 0)$p.value
+}</code></pre>
+<p>To start off, assume exactly 20 studies are done on each hypothesis.</p>
+<pre class="r"><code>set.seed(18)
+res_hyp1 &lt;- replicate(20, p_val(100, 1))
+res_hyp2 &lt;- replicate(20, p_val(100, 2))
+res_hyp3 &lt;- replicate(20, p_val(100, 3))
+res_hyp4 &lt;- replicate(20, p_val(100, 4))
+res_hyp5 &lt;- replicate(20, p_val(100, 5))
+
+hyp1_effects &lt;- sum(res_hyp1 &lt; 0.05)
+hyp2_effects &lt;- sum(res_hyp2 &lt; 0.05)
+hyp3_effects &lt;- sum(res_hyp3 &lt; 0.05)
+hyp4_effects &lt;- sum(res_hyp4 &lt; 0.05)
+hyp5_effects &lt;- sum(res_hyp5 &lt; 0.05)</code></pre>
+<p>Let’s say we publish about 10% of the null results, and 75% of the non-null results:</p>
+<pre class="r"><code>published &lt;- function() data.frame(
+  hyp = 1:5,
+  pub_eff = c(rbinom(1, hyp1_effects, p = .75),
+              rbinom(1, hyp2_effects, p = .75),
+              rbinom(1, hyp3_effects, p = .75),
+              rbinom(1, hyp4_effects, p = .75),
+              rbinom(1, hyp5_effects, p = .75)),
+  pub_null = c(rbinom(1, 20 - hyp1_effects, p = .1),
+               rbinom(1, 20 - hyp2_effects, p = .1),
+               rbinom(1, 20 - hyp3_effects, p = .1),
+               rbinom(1, 20 - hyp4_effects, p = .1),
+               rbinom(1, 20 - hyp5_effects, p = .1))
+)
+
+set.seed(1957)
+print(published())</code></pre>
+<pre><code>##   hyp pub_eff pub_null
+## 1   1       1        0
+## 2   2       0        3
+## 3   3       0        1
+## 4   4       0        0
+## 5   5      13        0</code></pre>
+<p>The first problem is that it isn’t clear from any individual study whether we have a true effect or not. But the bigger problem is that the literature is systematically biased away from the null. In fact, we sometimes have more non-null studies than null studies for a true null hypothesis:</p>
+<pre class="r"><code>any_unbalanced &lt;- function () {
+  result &lt;- published()[1:4,]
+  any(result$pub_eff &gt; result$pub_null)
+}
+
+mean(replicate(1000, any_unbalanced()))</code></pre>
+<pre><code>## [1] 0.221</code></pre>
+<p>So, under these assumptions, there is a 20% chance that we end up with more studies claiming an effect than studies showing a null result for at least one of the 4 incorrect hypotheses.</p>
+</div>
+<div id="factors-that-influence-publication-bias" class="section level2">
+<h2>Factors that influence publication bias</h2>
+<p>Some factors that influence these results:</p>
+<p><strong>Rate of true hypotheses</strong>. The lower the true hypothesis rate, the more we expect to find studies that claim a non-null result when the truth is null.</p>
+<p><strong>Magnitude of publication bias</strong>. More bias increases the chance of finding more positive results than negative results for a given incorrect hypothesis.</p>
+<p><strong>Number of studies done on each hypothesis</strong>. When there is a greater number of studies of a certain hypothesis, there is a greater chance of getting some positive results even when the true effect is null.</p>
+<p><strong>Other biases</strong>. All this assumes no other forms of bias affect results, and when they do, publication bias will have a relatively smaller effect.</p>
+</div>
+<div id="sensitivity-and-specificity" class="section level2">
+<h2>Sensitivity and specificity</h2>
+<p>The alpha level is the false-positive fraction, or one minus the specificity. Power is the true positive fraction, or the sensitivity. So we can calculate the positive predictive value for different rates of true hypotheses using only these two factors. But in papers people often don’t address the fact that different kinds of hypotheses are far more likely or less likely to be true given what is known about mechanisms. This makes p-values particularly hard to interpret.</p>
+<p>Most people care about the positive predictive power of the significance test, not the false positive rate, and they very commonly conflate the two when reading. It would be interesting to include the minimum true rate to have a 95% positive predictive value, for a given p-value cutoff.</p>
+<p>PPV is sens * prevalence / (sens * prevalence + (1 - spec) * (1 - prevalence)). So:</p>
+<pre class="r"><code>PPV &lt;- function (prev, sens = 0.8, spec = 0.95) {
+  prev*sens / (prev*sens + (1 - prev)*(1 - spec))
+}
+
+xs &lt;- seq(0.01,0.55,0.01)
+plot(PPV(xs) ~ xs)</code></pre>
+<p><img src="/post/pub-bias_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>With a power of 0.8 and an alpha of 0.05, the PPV is under 0.8 until you have a true positive prevalence of 0.2. But a lot of hypotheses probably don’t meet that.</p>
+<p>To have a PPV of 0.95, we need the following alpha levels:</p>
+<ul>
+<li>prevalence 0.1: p = 0.005</li>
+<li>prevalence 0.05: p = 0.002</li>
+<li>prevalence 0.01: p = 0.0004</li>
+</ul>
+</div>
+<div id="how-to-distinguish-true-effects-from-other-patterns" class="section level2">
+<h2>How to distinguish true effects from other patterns</h2>
+<p>The times when this concern is most appropriate are when dealing with studies where the effect size is not so (qualitatively) large and there are conflicting results in different studies. Then it matters a lot whether the null results are being underrepresented in the literature. The question isn’t about whether null hypothesis testing is useful – it is one of a large range of useful tools that can help rule out apparent patterns that are not of real interest. The real question is, how do we create a literature that people will naturally <em>interpret</em> in an appropriate way?</p>
+</div>
