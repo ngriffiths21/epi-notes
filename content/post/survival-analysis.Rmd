@@ -1,0 +1,56 @@
+---
+title: "Survival Analysis"
+date: 2020-09-13
+author: Nick Griffiths
+categories: Statistics
+---
+
+Survival analysis is about outcomes defined in terms of time before some event. *Survival time* is the time from a subject's entry into the study until the event.
+
+The *cumulative distribution function* $F(t)$ for survival time is the probability that the event already occurred, and equivalently, the proportion of people who had the event. It is the same as cumulative risk. The *survival function*, $S(t) = 1 - F(t)$ is the probability of surviving at least as long as a given time, or the proportion still surviving at a given time.
+
+From these two functions we get three others. The *probability density function* of survival time is the derivative of the CDF, $f(t) = \frac{d}{dt} F(t)$.
+
+The *hazard function* $h(t)$ is the ratio of the PDF to the survival function, $h(t) = \frac{f(t)}{S(t)}$. It is the derivative of the CDF for the subset that survived to that point (called the *risk set*). It is the probability density conditional on survival.
+
+The hazard function is important because it is equal to the instantaneous event rate per person at risk. If there is a constant event rate, the hazard will remain constant, but the PDF will not, because the PDF corresponds to the instantaneous risk in the original cohort. It goes down as the number of people still at risk decreases.
+
+The *cumulative hazard function* $H(t)$ is the integral of the hazard:
+
+$$\int_0^t h(t) dt$$
+
+The cumulative hazard can be interpreted as the total amount of risk over the period, or the total amount of events per one at-risk person expected over that period of time.
+
+## Modeling
+
+Survival analysis often uses either accelerated failure time or Cox proportional hazard models.
+
+### AFT models
+
+In accelerated failure time, survival time (time to event) is modeled:
+
+$$log(T) = \beta_0 + \beta_1 x_1$$
+
+The time $T$ is often modeled with an exponential, weibull, log-normal, or generalized gamma distribution. Exponential has a constant hazard function $\lambda = \frac{1}{\mathbb{E}(T)}$, so it has no additional parameters.
+
+The Weibull allows the hazard can change over time. The Weibull distribution for T is equivalent to an exponential distribution for $T^p$, $T^p \sim E(\lambda)$. The parameter $p$ is estimated in addition to the regression coefficients, since the regression coefficients only determine $\mathbb{E}(T)$. The hazard for this distribution is $h(t) = \lambda^p p t^{p-1}$.
+
+The log-normal distribution for $T$ is equivalent to the distribution when $log(T)$ has a normal distribution. So it is the same as using linear regression with outcome $y = log(T)$. It requires estimating a scale parameter.
+
+The generalized gamma distribution has the Weibull and exponential nested within it, as well as the log-normal distribution. It involves a scale and a shape parameter in addition to the regression coefficients.
+
+### Proportional hazards
+
+Cox models are specified like this:
+
+$$h(t) = \lambda_0 exp(\beta_1 x_1 + \beta_2 x_2 + ...)$$
+
+The Cox proportional hazards model is estimated in terms of the *partial likelihood*.
+
+At each event time, the full likelihood is the probability of someone failing times the probability of it being that particular subject. In AFT, the first part is derived from the assumed distribution of the failure times. But in Cox modeling we throw away the first part and just model the second, which leaves the baseline hazard rate, $\lambda_0$, completely unspecified. This makes it a semi-parametric model. But it assumes that the hazard of each individual is a constant proportion of all the other hazards.
+
+The partial likelihood at each event time is the hazard for the individual who failed divided by the total hazard:
+
+$$\ell_t = \frac{h_i}{\sum_{j = 1}^n h_j}$$
+
+where $n$ is the number of subjects left in the risk set. Note that in each $h$ term the baseline hazard $\lambda_0$ cancels out. The partial likelihood is the product of the likelihood at each time, and this is what the Cox model maximizes.
