@@ -25,6 +25,18 @@ Their domain and range can differ. In binary data, the logit link $\eta(y) = log
 
 Changes in predictors result in different changes in the outcome. With an identity link, predictors have an additive effect on the outcome. With a log or logit link, predictors have a multiplicative impact on the outcome.
 
+## Offsets
+
+When modeling count data, an offset term is used to correct for processes with different rates. For example, we can model the number of hypoglycemic events over time like so:
+
+$$y = \lambda t$$
+
+$$log(y) = \beta_0 + \beta_1 x_1 + ... + log(t)$$
+
+Where $y$ is the number of events and $t$ is the time the person was followed. The outcome $y$ is a count variable which can be modeled with a poisson distribution. With the log link, predicted counts are always positive.
+
 ## Interpretating parameters
 
 If the outcome is binary, then each $y_{obs}$ is $0$ or $1$ and $\mathbb{E}(y_{obs})$ is a probability. When interpreting the coefficients, an identity link would correspond with a linear relationship between the probability and the predictor (though it is hardly used). A log link corresponds with a log relative risk: $\beta = log(y_1) - log(y_2) = \log(y_1 / y_2)$. A logit link corresponds with a log odds ratio.
+
+With a time offset, $\beta_0 + \beta_1 x_1 + ...$ equals $log(y/t)$, which is the event *rate*. So the coefficients in poisson regression are log rate ratios, not risk ratios.

@@ -22,7 +22,15 @@ categories: Statistics
 <p>Their domain and range can differ. In binary data, the logit link <span class="math inline">\(\eta(y) = log(\frac{y}{1-y})\)</span> is great because it is a function <span class="math inline">\((0,1) \to \mathbb{R}\)</span>. This means all values of the predictor terms are always one-to-one with a valid probability. (Note that the log link is <span class="math inline">\((0,1) \to (-\infty,0)\)</span> which means that invalid probability predictions are still possible with a log link and arbitrary predictors).</p>
 <p>Changes in predictors result in different changes in the outcome. With an identity link, predictors have an additive effect on the outcome. With a log or logit link, predictors have a multiplicative impact on the outcome.</p>
 </div>
+<div id="offsets" class="section level2">
+<h2>Offsets</h2>
+<p>When modeling count data, an offset term is used to correct for processes with different rates. For example, we can model the number of hypoglycemic events over time like so:</p>
+<p><span class="math display">\[y = \lambda t\]</span></p>
+<p><span class="math display">\[log(y) = \beta_0 + \beta_1 x_1 + ... + log(t)\]</span></p>
+<p>Where <span class="math inline">\(y\)</span> is the number of events and <span class="math inline">\(t\)</span> is the time the person was followed. The outcome <span class="math inline">\(y\)</span> is a count variable which can be modeled with a poisson distribution. With the log link, predicted counts are always positive.</p>
+</div>
 <div id="interpretating-parameters" class="section level2">
 <h2>Interpretating parameters</h2>
 <p>If the outcome is binary, then each <span class="math inline">\(y_{obs}\)</span> is <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span> and <span class="math inline">\(\mathbb{E}(y_{obs})\)</span> is a probability. When interpreting the coefficients, an identity link would correspond with a linear relationship between the probability and the predictor (though it is hardly used). A log link corresponds with a log relative risk: <span class="math inline">\(\beta = log(y_1) - log(y_2) = \log(y_1 / y_2)\)</span>. A logit link corresponds with a log odds ratio.</p>
+<p>With a time offset, <span class="math inline">\(\beta_0 + \beta_1 x_1 + ...\)</span> equals <span class="math inline">\(log(y/t)\)</span>, which is the event <em>rate</em>. So the coefficients in poisson regression are log rate ratios, not risk ratios.</p>
 </div>
