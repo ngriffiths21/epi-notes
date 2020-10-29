@@ -1,0 +1,21 @@
+---
+title: "Research Questions"
+author: Nick Griffiths
+date: 2020-10-29
+categories: study-design
+---
+
+There are lots of things to consider before committing to a research plan and most of them don't depend on any data analysis.
+
+Issues related to the study question:
+
+- Is there a gap in the literature?
+- In what situations would the results be useful to know, and how might they change the public health approach to those situations?
+- Is there public interest in the question? If so, how might the public interpret the findings?
+
+Issues related to the data:
+
+- Will there reasonable statistical power to answer the question?
+- How much unmeasured confounding is there likely to be?
+- How much missclassification? Any dependent error?
+
