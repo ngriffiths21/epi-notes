@@ -14,7 +14,10 @@ jobs:
     - name: Install libcurl on Linux
       if: runner.os == 'Linux'
       run: sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev
-    - uses: actions/checkout@v2
+    - name: Checkout repo
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
     - uses: r-lib/actions/setup-r@v2
       with:
         r-version: '4.0.2'
