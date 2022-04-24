@@ -4,7 +4,7 @@ title: "About"
 
 # About
 
-I am a masters student in public health at Boston University. I write notes on things I'm currently learning/reading about, and most posts are a work in progress. You can browse them by topic at the post [index](/categories).
+I am an epidemiologist currently working in state government. I write notes on things I'm currently learning/reading about. You can browse them by topic at the post [index](/categories).
 
 ## Nick Griffiths
 
