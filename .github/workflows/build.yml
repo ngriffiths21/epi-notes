@@ -18,8 +18,6 @@ jobs:
     - name: Install libcurl on Linux
       if: runner.os == 'Linux'
       run: sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev
-    - name: Install Hugo
-      run: Rscript -e 'blogdown::install_hugo()'
     - name: Install Node
       uses: actions/setup-node@v1
     - name: Install R
@@ -30,6 +28,8 @@ jobs:
       uses: r-lib/actions/setup-renv@v2
       with:
         cache-version: 2
+    - name: Install Hugo
+      run: Rscript -e 'blogdown::install_hugo()'
 
     - name: Build website
       run: Rscript -e 'blogdown::build_site()'
