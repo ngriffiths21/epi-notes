@@ -39,8 +39,8 @@ jobs:
       uses: actions/cache@v3
       with:
         path: content
-        key: rmarkdown-${{ hashFiles('content/**/*.Rmd') }}
-        restore-keys: rmarkdown-
+        key: rmarkdown_v1-${{ hashFiles('content/**') }}
+        restore-keys: rmarkdown_v1-
 
     - name: Build website
       run: |
