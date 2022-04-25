@@ -5,7 +5,7 @@
     {{ with .GetPage "/post" }}
     {{ range .Pages.ByDate.Reverse }}
     <li>
-      <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+      <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
       <div id=date>
         <time>{{ .Date.Format (.Site.Params.dateform | default "2006/01/02") }}</time>
       </div>
