@@ -35,8 +35,17 @@ jobs:
     - name: Install Hugo
       run: Rscript -e 'blogdown::install_hugo(version = "0.97.3")'
 
+    - name: Cache rendered Rmarkdown content
+      uses: actions/cache@v3
+      with:
+        path: content
+        key: rmarkdown-${{ hashFiles('content/**/*.Rmd') }}
+        restore-keys: rmarkdown-
+
     - name: Build website
-      run: Rscript -e 'blogdown::build_site()'
+      run: |
+        Rscript -e 'blogdown::build_dir("content")'
+        Rscript -e 'blogdown::build_site()'
     - name: Deploy Preview to Netlify
       if: ${{ github.event_name == 'pull_request' }}
       env:
