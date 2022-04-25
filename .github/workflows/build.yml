@@ -44,7 +44,7 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       run: |
           npm install netlify-cli -g
-          netlify deploy
+          netlify deploy --dir public
     - name: Publish to Netlify
       if: ${{ github.event_name == 'push' }}
       env:
@@ -52,4 +52,4 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       run: |
           npm install netlify-cli -g
-          netlify deploy --prod
+          netlify deploy --prod --dir public
