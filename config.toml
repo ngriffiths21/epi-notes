@@ -1,7 +1,7 @@
 baseurl = "https://epinotes.netlify.com"
 title = "Epi notes"
 author = "Nick Griffiths"
-canonifyurls = true
+canonifyurls = false
 languagecode = "en"
 theme = "hugo-tanka"
 
