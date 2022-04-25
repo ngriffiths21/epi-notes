@@ -1,3 +1,5 @@
 public/
 blogdown/
 .Rproj.user
+content/**/*.html
+static/post/**
