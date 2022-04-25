@@ -3,6 +3,8 @@ name: Build
 on:
   push:
     branches: master
+  pull_request:
+    branches: master
 
   workflow_dispatch:
 
@@ -35,10 +37,19 @@ jobs:
 
     - name: Build website
       run: Rscript -e 'blogdown::build_site()'
-    - name: Deploy to Netlify
+    - name: Deploy Preview to Netlify
+      if: ${{ github.event_name == "pull_request" }}
       env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       run: |
           npm install netlify-cli -g
           netlify deploy
+    - name: Publish to Netlify
+      if: ${{ github.event_name == "push" }}
+      env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      run: |
+          npm install netlify-cli -g
+          netlify deploy --prod
