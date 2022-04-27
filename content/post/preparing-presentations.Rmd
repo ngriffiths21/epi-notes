@@ -1,0 +1,28 @@
+---
+title: "Preparing oral presentations"
+date: 04-05-2022
+author: Nick Griffiths
+categories: writing
+---
+
+The point of a presentation is to sell an idea. It is a lot different from the day to day work of doing a research project or working on a disease surveillance system. So most people who do this kind of technical work have really boring presentations.
+
+To make them interesting---to sell the idea---tell a story that the audience will understand.
+
+First of all, have a clear idea of what the audience cares about and what valuable thing they can take away from the talk. This is worth spending some time on before moving into the talk itself. It can also be done on the fly by asking at the beginning of the talk.
+
+Second, the talk needs to have structure, broken up into parts. To emphasize the structure, ask for questions in between each part. After final questions there should be another conclusion statement so it isn't an awkward ending.
+
+The basic structure for a good academic/research talk goes like this:
+
+1. Introduce the result in a way that makes it seem very relevant to the audience, something that they would care a lot about if it were true. But leave it unclear why it is true. Introduce the topic in a way that sparks curiosity and leaves the audience wanting an explanation.
+
+2. Return to the beginning of the investigation, and tell it in a clear, linear, convincing way. In other words, leave out mishaps and rearrange steps that were done out of order. Most importantly, the audience cannot absorb very much information. Leave out everything extraneous from the talk itself as well as the slides. But make sure there is enough context and nothing is assumed to be "obvious."
+
+3. Arrive at the conclusion and summarize it in such a way that the audience is reminded that it was not obvious at first.
+
+The whole talk should be as respectful of the audience as possible. It should be planned to end early to make sure it doesn't run late.
+
+Another interesting tip is to practice giving the talk in a natural voice. Note that public speaking tends to make people go into an unnatural voice that feels forced. It can take a long time and a lot of practice to make this feel really natural, but it is well worth it.
+
+For more, [these slides](http://www.princeton.edu/~reddings/tradephd/public_speaking_for_academic_economists.pdf) by Rachael Meager are the main source for these notes and have a lot more detail about preparing talks.
