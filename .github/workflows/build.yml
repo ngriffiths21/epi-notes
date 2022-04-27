@@ -40,12 +40,14 @@ jobs:
     - name: Cache rendered Rmarkdown content
       uses: actions/cache@v3
       with:
-        path: content
-        key: rmarkdown_v1-${{ hashFiles('content/**') }}
+        path: |
+          content/**/*.html
+          blogdown/md5sum.txt
+        key: rmarkdown_v1-${{ hashFiles('content/**/*.Rmd') }}
         restore-keys: rmarkdown_v1-
 
     - name: Build website
-      run: Rscript -e 'blogdown::build_site(build_rmd = "timestamp")'
+      run: Rscript -e 'blogdown::build_site(build_rmd = "md5sum")'
     - name: Deploy Preview to Netlify
       if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
       env:
