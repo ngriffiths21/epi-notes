@@ -1,6 +1,6 @@
 ---
 title: "Preparing oral presentations"
-date: 04-05-2022
+date: 2022-04-05
 author: Nick Griffiths
 categories: writing
 ---
