@@ -7,7 +7,7 @@ categories: Management
 
 This is a checklist for basic project management, organized by three different types of communication. The goal is for everyone on the team to have access to all the information they need to work efficiently, and to understand how their part fits in with the broader project.
 
-### Documentation, visible to all the team members
+### Documentation
 
 Documentation is for things that everyone will need to revisit often:
 
@@ -17,10 +17,10 @@ Documentation is for things that everyone will need to revisit often:
 
 *Project tasks*. The plan should be complete, with as much detail as possible in each project area (but at least a broad task). For all tasks:
 
-    - Assign at least one person
-    - Specify timeline
-    - Specify what earlier tasks it depends on
-    - Show what the status of the task is (planned, in progress, completed)
+- Assign at least one person
+- Specify timeline
+- Specify what earlier tasks it depends on
+- Show what the status of the task is (planned, in progress, completed)
 
 *Standards for work products*. This includes things like organizing files, data standards, templates, style guides, etc.
 
