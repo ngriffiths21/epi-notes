@@ -5,33 +5,39 @@ author: Nick Griffiths
 categories: Management
 ---
 
-# Checklist for project management
-
 This is a checklist for basic project management, organized by three different types of communication. The goal is for everyone on the team to have access to all the information they need to work efficiently, and to understand how their part fits in with the broader project.
 
-## Documentation, visible to all the team members
+### Documentation, visible to all the team members
 
 Documentation is for things that everyone will need to revisit often:
 
-* High level goals for the project. These should be clear, cohesive, and all project tasks should align.
-* High level overview of major project areas, with facilitators/contacts and tentative timelines
-* Project tasks. The plan should be complete, with as much detail as possible in each project area (but at least a broad task). For all tasks:
-	- Assign at least one person
-	- Specify timeline
-	- Specify what earlier tasks it depends on
-	- Show what the status of the task is (planned, in progress, completed)
-* Standards for work products. This includes things like organizing files, data standards, templates, style guides, etc.
+*High-level goals for the project*. These should be clear, cohesive, and all project tasks should align.
 
-## Regular email updates
+*High-level overview of major project areas*. Include facilitators/contacts and tentative timelines.
+
+*Project tasks*. The plan should be complete, with as much detail as possible in each project area (but at least a broad task). For all tasks:
+
+    - Assign at least one person
+    - Specify timeline
+    - Specify what earlier tasks it depends on
+    - Show what the status of the task is (planned, in progress, completed)
+
+*Standards for work products*. This includes things like organizing files, data standards, templates, style guides, etc.
+
+### Regular email updates
 
 Regular updates are for changes that everyone needs to be aware of:
 
-* Progress made in recent meetings
-* Activities that show progress towards project goals
-* Any shifting goals, timeline or approach. This can include new tasks that have been identified or recent challenges that have slowed down one part of the project. It should be clear to all team members how their work is affected.
-* Tentative plan until the next regular update
-* Discussion points that should be covered in upcoming meetings
+*Recent meeting highlights*. Short summary of what was learned or decided on that made progress towards project goals.
 
-## Meetings
+*Activities*. Brief summary of completed work that made progress towards project goals.
+
+*Changes*. Any shifting goals, timeline or approach. This can include new tasks that have been identified or recent challenges that have slowed down one part of the project. It should be clear to all team members how their work is affected.
+
+*Tentative plan*. Upcoming activities before the next regular update.
+
+*Discussion points*. Items that should be put on the agenda for upcoming meetings.
+
+### Meetings
 
 Meetings should be used to discuss things, with minimal time for simple updates. The updates are a good way to organize an agenda for upcoming meetings.
