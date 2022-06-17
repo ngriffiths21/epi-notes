@@ -1,0 +1,54 @@
+---
+title: "Complex survey data analysis"
+date: 2022-06-17
+author: Nick Griffiths
+categories: data-analysis
+---
+
+## Complex survey data
+
+### Overview
+
+Complex surveys measure a target population accurately and in a cost-effective way. Researchers draw random samples of the target population by choosing from a predefined list of clusters. Sampling is done with replacement. Researchers often choose a set of primary clusters and then choose smaller, secondary clusters from within them, which is called multistage sampling. Clusters are commonly defined geographically, which makes it easier to choose individuals from a variety of parts of the population while avoiding the need to interview people who are scattered throughout the whole area.
+
+Researchers can often improve measurement by identifying, even before sampling, groups that are likely to differ significantly. These groups are called strata. After defining them, the researchers choose primary clusters randomly from within these strata. Estimates from the survey will eventually be estimated within strata, and then pooled together.
+
+### Weights
+
+Weights are calculated as the inverse of the probability of selection, given the sampling design. They can account for missing data, stratification, and known population demographics.
+
+#### Raking
+
+Raking is a popular way to create survey weights. The raked weights are a solution to the following problem:
+
+1. Take a matrix describing the joint distribution of two variables of interest. For example, a matrix with education on the X axis and age groups on the Y axis, with a count of individuals in each cell. This is matrix Z.
+2. Take a new matrix describing the same joint distribution in the target population. The interior of the matrix is unknown, but the row and column totals (marginal distributions of each variable) are known. This is matrix Y.
+3. Find the matrix X that has the same row and column totals as Y, and as closely as possible matches the joint distribution described in Z.
+4. Solve the same problem for arrays of dimension 3 and higher if more than two variables are needed.
+
+Raking can also be used to capture interactions in the target population. In this case, one axis in a matrix or array will have all the possible combinations of values for the variables that are known to interact.
+
+#### Post-stratification
+
+Post-stratification is just raking but in only one dimension, not two or more.
+
+#### Propensity score modeling
+
+### Estimating variances
+
+- Variance is affected by stratification and clustering. In YHS there is only clustering so focusing on that.
+- For variance estimation with a multistage sampling design, you treat the sample as a single-stage random sample (with replacement) of "ultimate clusters." First imagine enumerating every possible sample that could be chosen from each PSU based on the multistage design -- each of these is called an ultimate cluster. Since PSUs are required to be chosen with replacement, any arrangement of these is possible. So the sample you actually have is a single-stage random sample of these clusters.
+- In Taylor-series linearization, you rewrite the population statistic as a weighted ratio. For example the mean has numerator u = w\*y, calculated at the case level and summed over all cases, and the denominator is v = w also summed over all cases.
+	- The variance of the sums of u and v can be estimated only using each PSU's subtotal of u and v (in other words, the subtotal in each randomly sampled ultimate cluster).
+	- These variances are then used to approximate the variance of u/v by using the taylor linearization of u/v (where the first derivative of u/v is calculated at the expected value of u/v, and then used to make a linear combination u/v = y = u0/v0 + A(u-u0) + B(v-v0), so that the simple variance formula for linear combinations can then be used).
+
+#### Replicate weights
+
+- Simulate multiple draws from the enumerated population
+- Allow for extremely flexible variance estimation of any estimator (ratios, means, quantiles, regression covariates, etc)
+- To calculate variance of any estimator, you estimate independently with each replicate and simply calculate the variance in estimates. Exact formula varies by replication weight method (bootstrap vs BRR vs fay BRR). Standard error is then square root of that variance. (Could also calculate a nonparametric confidence interval using quantiles of the estimate distribution).
+
+#### Domain estimation
+
+- When using replicate weights, domain analysis must be done by using the replicate weights as constructed from the whole sample. After weights are generated you can subset and do any analysis.
+- When using taylor linearization, you can't subset the dataset. You have to instruct software to do a domain analysis.
