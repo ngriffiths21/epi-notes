@@ -52,10 +52,10 @@ When it comes to variance, multistage sampling is surprisingly similar to single
 
 **Taylor series linearization variance estimation**
 
-A common way of estimating variance is Taylor-series linearization. It works like this:
+A common way of estimating variance is Taylor-series linearization. At a high level, it works like this:
 
 1. Rewrite the population statistic as a weighted ratio. For example, imagine estimating the population mean of a variable. The numerator would be $u = w * y$, where $w$ is the weight and $y$ is the individual value. This is calculated at the case level and summed over all cases. The denominator is $v = w$, also summed over all cases.
-2. Estimate the variance of the totals $u$ and $v$, and the covariance of $u$ with $v$. Conceptually, the variances estimate the spread of the possible $u$ and $v$ sample totals over all the possible draws of ultimate clusters.
+2. Estimate the variance of the totals $u$ and $v$, and the covariance of $u$ with $v$. These variances depend only on the subtotals of $u$ and $v$ for each PSU, and for each stratum. Conceptually, the variances estimate the spread of the possible $u$ and $v$ sample totals over all the possible draws of ultimate clusters.
 4. Find a linear approximation of the function $u/v$ near the sample estimate, $u_0/v_0$, by using the taylor linearization of $u/v$. This is $u/v = u0/v0 + A(u-u0) + B(v-v0)$. Here, A and B are the partial derivatives of the ratio $u/v$ with respect to $u$ and $v$, evaluated at $u_0/v_0$. They are very simple calculations (e.g. $A = 1/v_0$).
 5. Estimate the variance of $u/v$, near $u_0/v_0$. Step 4 gives us a function estimating $u/v$ that is just a linear combination of $u$ and $v$, so there are relatively simple formulas to calculate the variance that only depend on the variances of $u$ and $v$ and the covariance of $u$ with $v$, which were estimated in step 2.
 
@@ -68,3 +68,7 @@ To calculate variance, researchers estimate the population parameter for each re
 **Caution: domain estimation**
 
 When using replicate weights, domain analysis must be done using the replicate weights as constructed from the whole sample. After weights are generated it's possible to subset the data and do any stratified analysis. When using taylor linearization, subsetting the dataset will result in incorrect estimates. However, most statistical software can compute domain estimates if specifically instructed to do so.
+
+### Further reading
+
+For more detail and full formulas, refer to Applied Survey Data Analysis by Heeringa, West and Berglund.
