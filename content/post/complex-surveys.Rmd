@@ -1,0 +1,74 @@
+---
+title: "Complex survey data analysis"
+date: 2022-06-17
+author: Nick Griffiths
+categories: data-analysis
+---
+
+## Complex survey data
+
+### Overview
+
+Complex surveys measure a target population accurately and in a cost-effective way. Researchers draw random samples of the target population, with replacement, by choosing from a predefined list of clusters. Researchers often choose a set of primary clusters and then choose smaller, secondary clusters from within them, which is called multistage sampling. Often, each stage of sampling will correspond with progressively smaller geographic areas, which allows researchers to sample broadly while still saving time by choosing participants who live close to other participants.
+
+Researchers can often improve measurement by identifying, even before sampling, groups that are likely to differ significantly. These groups are called strata. After defining them, the researchers choose primary clusters randomly from within these strata. They will eventually make estimates within strata before pooling them together to obtain final population estimates.
+
+### Weights
+
+Weights allow researchers to produce population representative estimates while accounting for missing data, stratification, and known population demographics. They can be constructed using raking, post-stratification, or propensity score modeling.
+
+**Raking**
+
+Raking is a popular way to create survey weights. It is most useful when the target population has several demographic variables with well known marginal distributions, but the interactions between these demographic variables are unknown. The raked weights are created like this:
+
+1. From the study population, make a matrix describing the joint distribution of two demographic variables. For example, a matrix with education on the X axis and age groups on the Y axis, where each cell is a count of individuals at that combination of age and education. This matrix is matrix Z.
+2. Imagine a new matrix describing the same joint distribution in the target population. The interior of the matrix is unknown, but the row and column totals are known (these describe the marginal distributions of each variable). This matrix is matrix Y.
+3. Create a matrix X based on the interior of Z but matching the row and column totals of Y.
+4. Solve the same problem for arrays of dimension 3 and higher if more than two variables are needed.
+
+In summary, raking imposes on a study population the margins of the target population, and it tries to preserve the study population's joint distribution.
+
+Raking can also be used when there are some known interactions between variables in the target population. In this case, each position along an axis will correspond with a combination of two or more variables (e.g. males 18-24, followed by males 25-34, followed by females 18-24, etc.)
+
+**Post-stratification**
+
+Post-stratification is just raking with only one dimension. First the study population is broken up into groups based on their values of one variable (or a known interaction of two or more variables). Then each group is assigned a weight such that the total in the study population matches the total in the target population.
+
+**Propensity score modeling**
+
+Propensity score modeling comes from a different idea: modeling the selection of the study population from the target population. It works like this:
+
+1. Construct a dataset containing the full study population as well as a representative sample of the target population.
+2. Develop a statistical model of the probability that an individual is in the study population, based on demographic factors that are expected to influence selection.
+3. For everyone in the study population, use the model to estimate their probability of selection, and calculate weights by taking the inverse of this probability.
+
+This works best when a representative dataset is available, not just marginal distributions of demographic variables. The main benefit is that many modeling techniques can be used, including advanced ways of modeling interactions between demographic variables that are much less cumbersome than raking would be. The downside is that for some models, the margins of the target population might not be reproduced.
+
+### Estimating variances
+
+The variance of population estimates is affected by stratification and clustering. For example, if clustering is not accounted for, the variance will seem a lot lower because clustering makes individuals more likely to have related experiences and characteristics.
+
+When it comes to variance, multistage sampling is surprisingly similar to single stage sampling. Imagine enumerating every possible sample that could be chosen from each PSU in a multistage process. Each of these is called an ultimate cluster. Since PSUs are required to be chosen with replacement, every ultimate cluster has an equal chance of being chosen. So the study sample can be treated like a single stage random sample of PSUs. Therefore, all that is needed to properly estimate variance is knowledge of which PSU and which stratum all the observations came from.
+
+**Taylor series linearization variance estimation**
+
+A common way of estimating variance is Taylor-series linearization. At a high level, it works like this:
+
+1. Rewrite the population statistic as a weighted ratio. For example, imagine estimating the population mean of a variable. The numerator would be $u = w * y$, where $w$ is the weight and $y$ is the individual value. This is calculated at the case level and summed over all cases. The denominator is $v = w$, also summed over all cases.
+2. Estimate the variance of the totals $u$ and $v$, and the covariance of $u$ with $v$. These variances depend only on the subtotals of $u$ and $v$ for each PSU, and for each stratum. Conceptually, the variances estimate the spread of the possible $u$ and $v$ sample totals over all the possible draws of ultimate clusters.
+4. Find a linear approximation of the function $u/v$ near the sample estimate, $u_0/v_0$, by using the taylor linearization of $u/v$. This is $u/v = u0/v0 + A(u-u0) + B(v-v0)$. Here, A and B are the partial derivatives of the ratio $u/v$ with respect to $u$ and $v$, evaluated at $u_0/v_0$. They are very simple calculations (e.g. $A = 1/v_0$).
+5. Estimate the variance of $u/v$, near $u_0/v_0$. Step 4 gives us a function estimating $u/v$ that is just a linear combination of $u$ and $v$, so there are relatively simple formulas to calculate the variance that only depend on the variances of $u$ and $v$ and the covariance of $u$ with $v$, which were estimated in step 2.
+
+**Replicate weights**
+
+Replicate weights simulate random draws of ultimate clusters from the full population. There are two common types, jackknife and balanced repeated replication. For jackknife one PSU (one ultimate cluster) is deleted from each replicate. For balanced repeated replication, each stratum is set up to include exactly two PSUs, and each replicate randomly deletes one PSU from every stratum, leaving one left.
+
+To calculate variance, researchers estimate the population parameter for each replicate. Then they use simple formulas to estimate the population variance from all the replicate estimates. (Another option is to calculate nonparametric quantile confidence intervals using the replicate estimates).
+
+**Caution: domain estimation**
+
+When using replicate weights, domain analysis must be done using the replicate weights as constructed from the whole sample. After weights are generated it's possible to subset the data and do any stratified analysis. When using taylor linearization, subsetting the dataset will result in incorrect estimates. However, most statistical software can compute domain estimates if specifically instructed to do so.
+
+### Further reading
+
+For more detail and full formulas, refer to Applied Survey Data Analysis by Heeringa, West and Berglund.
