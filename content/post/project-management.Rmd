@@ -5,7 +5,11 @@ author: Nick Griffiths
 categories: Management
 ---
 
-This is a checklist for basic project management, organized by three different types of communication. The goal is for everyone on the team to have access to all the information they need to work efficiently, and to understand how their part fits in with the broader project.
+Project management is a bit of a misnomer. It sounds like a way of keeping the project on course, and moving smoothly towards a set of predefined goals. But the best project management systems promote learning and anticipate major changes, even to the fundamental aims of the project. In fact, if no changes and no learning were expected, it would be hard to see a need for project management at all. Projects could simply be planned out all in advance and executed according to the plan.
+
+The simplest way a team learns new things is by producing a complete product and then testing it out. "Complete" can mean lots of different things: it could be a published document, a physical product, or even a simple outline of something that will be produced later. The only requirement is that it has to exist in the real world, not in someone's head. Everyone has to have access to it and be able to understand it, so that everyone can learn from it. The more often "complete" products are produced, the faster the team can learn.
+
+In order for a team to build something and test it out, everyone must have access to lots of information about the goals of the project, the current product's status, and the work left to do. This is a checklist for organizing all that information and communication.
 
 ### Documentation
 
@@ -26,7 +30,7 @@ Documentation is for things that everyone will need to revisit often:
 
 ### Regular email updates
 
-Regular updates are for changes that everyone needs to be aware of:
+Regular updates are for recent changes that everyone needs to be aware of:
 
 *Recent meeting highlights*. Short summary of what was learned or decided on that made progress towards project goals.
 
@@ -40,4 +44,4 @@ Regular updates are for changes that everyone needs to be aware of:
 
 ### Meetings
 
-Meetings should be used to discuss things, with minimal time for simple updates. The updates are a good way to organize an agenda for upcoming meetings.
+Meetings should be used to discuss things, with minimal time for simple updates. The regular updates are a good way to organize an agenda for upcoming meetings.
