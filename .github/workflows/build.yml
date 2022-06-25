@@ -42,9 +42,10 @@ jobs:
       with:
         path: |
           content/**/*.html
+          static/post/**/*
           blogdown/md5sum.txt
-        key: rmarkdown_v1-${{ hashFiles('content/**/*.Rmd') }}
-        restore-keys: rmarkdown_v1-
+        key: rmarkdown_v2-${{ hashFiles('content/**/*.Rmd') }}
+        restore-keys: rmarkdown_v2-
 
     - name: Build website
       run: Rscript -e 'blogdown::build_site(build_rmd = "md5sum")'
