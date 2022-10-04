@@ -15,9 +15,14 @@ In order for a team to build something and test it out, everyone must have acces
 
 Documentation is for things that everyone will need to revisit often:
 
-*High-level goals for the project*. These should be clear, cohesive, and all project tasks should align.
+*High-level documentation of the project*. Every project should have a document that looks something like this:
 
-*High-level overview of major project areas*. Include facilitators/contacts and tentative timelines.
+- A list of fundamental values, in order of importance, which give the project a basic reason to exist and inform decisions about it
+- A description of what work has already gone into the project, and why it's better than its competitors
+- A list of the team's strengths, expertise and other resources
+- A list of specific activities that are planned to develop the team's strengths, and to use those strengths to improve the project
+
+*Overview of major project areas*. Include facilitators/contacts and tentative timelines.
 
 *Project tasks*. The plan should be complete, with as much detail as possible in each project area (but at least a broad task). For all tasks:
 
