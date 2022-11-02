@@ -5,17 +5,19 @@ date: 2020-10-29
 categories: study-design
 ---
 
-There are lots of things to consider before committing to a research plan and most of them don't depend on any data analysis.
+A lot of research is inefficient. Even results that are new and interesting may not change how we think about the topic, or help us solve our problems. Often, inefficient research comes from asking bad research questions. Good questions are elusive, but the best researchers have learned how to find them, and this is what separates them from the rest.
 
-Issues related to the study question:
+In epidemiology, the goal is to generate research findings that can be applied to public health action. Successful studies do this by communicating a mental model of how a disease works, so that public health practitioners can apply that model to their response. The model they communicate often includes theory about which parameters drive the behavior of the disease, along with empirical estimates of what the values of the parameters are. For example, one model of COVID-19 is based on a theoretical idea that transmission is driven by a particular *type* of interpersonal contact, and this type of contact will dominate all others. For COVID-19, empirical evidence suggested that the dominant type was airborne transmission. This explained a number of other observations, like the existence of super-spreader events.
 
-- Is there a gap in the literature?
-- In what situations would the results be useful to know, and how might they change the public health approach to those situations?
-- Is there public interest in the question? If so, how might the public interpret the findings?
+The mental models are beneficial primarily for three reasons:
 
-Issues related to the data:
+* They help people modify their own behavior
+* They help people work together to solve the problem
+* They help people advocate in policy debates
 
-- Will there reasonable statistical power to answer the question?
-- How much unmeasured confounding is there likely to be?
-- How much missclassification? Any dependent error?
+These three impacts determine whether a model is helpful or not. The COVID-19 model was particularly good because it had all three impacts: people could focus on avoiding large crowds and wearing masks rather than improving hygiene; they could set up new ways for large groups to communicate; they could advocate for closures of schools and large venues as needed.
+
+However, models that are new are often actively rejected for a number of reasons. Older models always seem to be better supported, since they have more time to accumulate evidence. Sometimes accepting a new model means acknowledging that past actions were wrong. Sometimes people have already made a lot of progress under the old model, and don't want that work to be wasted. Other times, people just believe strongly in the old model and aren't willing to even consider a new one. As a result, it takes a lot of people working together to challenge an old model with a new one.
+
+Finally, good models can't make up for bad data. Lots of data issues can prevent us from getting useful empirical results. This could include lack of statistical power, unmeasured confounding, selection bias, measurement error, and dependent errors.
 
